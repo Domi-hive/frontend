@@ -67,7 +67,10 @@ export function PropertyCard({
   const inspectionInfo = getInspectionStatus();
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 group">
+    <div
+      className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 group cursor-pointer"
+      onClick={() => onViewDetails(property.id)}
+    >
       {/* Image */}
       <div className="relative h-40 overflow-hidden">
         <ImageWithFallback
@@ -80,7 +83,7 @@ export function PropertyCard({
             e.stopPropagation();
             onSaveWishlist(property.id);
           }}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors z-10"
         >
           <Heart className="w-4 h-4 text-gray-600" />
         </button>
