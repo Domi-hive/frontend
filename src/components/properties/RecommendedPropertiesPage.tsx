@@ -167,6 +167,10 @@ export function RecommendedPropertiesPage() {
             phone: '+234 812 345 6789',
           },
           visibilityLevel: 'available',
+          lastUpdated: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+          interestExpressed: true,
+          lastUpdated: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+          interestExpressed: false,
           features: [
             'Panoramic City Views',
             'Private Elevator',
@@ -197,6 +201,12 @@ export function RecommendedPropertiesPage() {
             verified: true,
           },
           visibilityLevel: 'active',
+          lastUpdated: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+          interestExpressed: false,
+          lastUpdated: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+          interestExpressed: true,
+          lastUpdated: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+          interestExpressed: false,
           features: [
             'Private Garden',
             'Double Garage',
