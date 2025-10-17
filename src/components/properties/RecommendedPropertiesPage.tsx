@@ -25,6 +25,8 @@ interface Property {
   bedrooms?: number;
   bathrooms?: number;
   size?: string;
+  lastUpdated?: Date;
+  interestExpressed?: boolean;
 }
 
 interface PropertyRequest {
@@ -41,8 +43,7 @@ export function RecommendedPropertiesPage() {
     title: string;
     location: string;
   } | null>(null);
-
-  const propertyRequests: PropertyRequest[] = [
+  const [propertyRequests, setPropertyRequests] = useState<PropertyRequest[]>([
     {
       id: '1',
       title: '3-Bedroom Apartment in Wuse II',
@@ -66,6 +67,8 @@ export function RecommendedPropertiesPage() {
             phone: '+234 812 345 6789',
           },
           visibilityLevel: 'available',
+          lastUpdated: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+          interestExpressed: false,
           features: [
             'Fully Furnished',
             'Air Conditioning',
@@ -97,6 +100,8 @@ export function RecommendedPropertiesPage() {
             verified: true,
           },
           visibilityLevel: 'active',
+          lastUpdated: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+          interestExpressed: false,
           features: [
             'Modern Kitchen',
             'Marble Flooring',
@@ -125,6 +130,8 @@ export function RecommendedPropertiesPage() {
             verified: true,
           },
           visibilityLevel: 'locked',
+          lastUpdated: new Date(Date.now() - 48 * 60 * 60 * 1000), // 48 hours ago (stale)
+          interestExpressed: false,
           features: [
             'Open Floor Plan',
             'Natural Lighting',
@@ -205,9 +212,21 @@ export function RecommendedPropertiesPage() {
         },
       ],
     },
-  ];
+  ]);
 
   const handleExpressInterest = (id: string) => {
+    // Update the property to mark interest as expressed
+    setPropertyRequests(prevRequests =>
+      prevRequests.map(request => ({
+        ...request,
+        properties: request.properties.map(property =>
+          property.id === id
+            ? { ...property, interestExpressed: true }
+            : property
+        )
+      }))
+    );
+
     toast.success('Interest Expressed', {
       description: 'Agent has been notified of your interest in this property.',
     });
