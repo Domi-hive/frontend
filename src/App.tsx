@@ -3,6 +3,8 @@ import { AgentsPage } from './pages/AgentsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { MessagesPage } from './pages/MessagesPage';
 import { RequestsPage } from './pages/RequestsPage';
+import { InspectionsPage } from './pages/InspectionsPage';
+import { RecommendedPropertiesPage } from './pages/RecommendedPropertiesPage';
 import { MobileNav } from './components/MobileNav';
 import { Home } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -32,13 +34,21 @@ export default function App() {
   if (currentPath === '/dashboard') {
     return <DashboardPage />;
   }
-  
+
   if (currentPath === '/dashboard/messages') {
     return <MessagesPage />;
   }
-  
+
   if (currentPath === '/dashboard/requests') {
     return <RequestsPage />;
+  }
+
+  if (currentPath === '/dashboard/inspections') {
+    return <InspectionsPage />;
+  }
+
+  if (currentPath === '/dashboard/properties') {
+    return <RecommendedPropertiesPage />;
   }
 
   return (

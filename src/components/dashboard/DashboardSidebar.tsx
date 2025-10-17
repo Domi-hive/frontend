@@ -1,4 +1,4 @@
-import { Home, Mail, BookOpen, CheckSquare, Users, Settings, LogOut } from 'lucide-react';
+import { Home, Mail, BookOpen, CheckSquare, Users, Settings, LogOut, Building2 } from 'lucide-react';
 import { useState } from 'react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
@@ -7,6 +7,8 @@ export function DashboardSidebar() {
   const [activeItem, setActiveItem] = useState(
     currentPath === '/dashboard/messages' ? 'Messages' :
     currentPath === '/dashboard/requests' ? 'Requests' :
+    currentPath === '/dashboard/inspections' ? 'Inspections' :
+    currentPath === '/dashboard/properties' ? 'Recommended Properties' :
     'Dashboard'
   );
   
@@ -20,8 +22,8 @@ export function DashboardSidebar() {
     { icon: Home, label: 'Dashboard', path: '/dashboard' },
     { icon: Mail, label: 'Messages', path: '/dashboard/messages' },
     { icon: BookOpen, label: 'Requests', path: '/dashboard/requests' },
-    { icon: CheckSquare, label: 'Inspections', path: '/dashboard' },
-    { icon: Users, label: 'Agents', path: '/dashboard' },
+    { icon: CheckSquare, label: 'Inspections', path: '/dashboard/inspections' },
+    { icon: Building2, label: 'Recommended Properties', path: '/dashboard/properties' },
   ];
   
   const connections = [
