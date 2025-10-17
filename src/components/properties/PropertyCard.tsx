@@ -1,5 +1,4 @@
 import { Lock, Heart, CheckCircle, MapPin, Calendar, MessageSquare } from 'lucide-react';
-import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
@@ -44,29 +43,28 @@ export function PropertyCard({
   onSaveWishlist,
   onViewDetails,
 }: PropertyCardProps) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const getAvailabilityBadge = () => {
     switch (property.visibilityLevel) {
       case 'available':
         return (
-          <Badge className="bg-green-100 text-green-800 border-green-200">
+          <Badge className="bg-green-100 text-green-700 text-xs px-3 py-1">
             <CheckCircle className="w-3 h-3 mr-1" />
-            Available
+            Confirmed Available
           </Badge>
         );
       case 'active':
         return (
-          <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+          <Badge className="bg-[#90CAF9] text-[#1565C0] text-xs px-3 py-1">
             <Calendar className="w-3 h-3 mr-1" />
-            Active
+            Available for Inspection
           </Badge>
         );
       case 'locked':
         return (
-          <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+          <Badge className="bg-gray-100 text-gray-600 text-xs px-3 py-1">
             <Lock className="w-3 h-3 mr-1" />
-            Locked
+            Pending Confirmation
           </Badge>
         );
       default:
@@ -86,7 +84,7 @@ export function PropertyCard({
 
   return (
     <div
-      className="bg-white rounded-xl border border-gray-200 overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+      className={`bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md ${isLocked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       onClick={handleCardClick}
     >
       {/* Image */}
@@ -103,31 +101,9 @@ export function PropertyCard({
         </div>
 
         {/* Wishlist Button */}
-        <TooltipProvider>
-          <div className="absolute top-3 right-3">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsWishlisted(!isWishlisted);
-                    onSaveWishlist(property.id);
-                  }}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                    isWishlisted
-                      ? 'bg-red-500 text-white'
-                      : 'bg-white/80 text-gray-600 hover:bg-white'
-                  }`}
-                >
-                  <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-        </TooltipProvider>
+        <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors">
+          <Heart className="w-4 h-4 text-gray-600" />
+        </button>
 
         {/* Lock Overlay */}
         {isLocked && (
@@ -152,17 +128,13 @@ export function PropertyCard({
 
       {/* Content */}
       <div className="p-4">
-        {/* Price and Location */}
-        <div className="mb-2">
-          <div className="text-lg font-semibold text-gray-900 mb-1">{property.price}</div>
-          <div className="flex items-center gap-1 text-gray-600 text-sm">
-            <MapPin className="w-4 h-4" />
-            {property.location}
-          </div>
-        </div>
-
         {/* Title */}
-        <h3 className="text-base font-medium text-gray-900 mb-2 line-clamp-2">{property.title}</h3>
+        <h3 className="text-lg mb-1">{property.title}</h3>
+        <div className="text-xl mb-2" style={{ color: 'rgb(21, 101, 192)' }}>{property.price}</div>
+        <div className="flex items-center gap-1 text-sm text-gray-600">
+          <MapPin className="w-4 h-4" />
+          <span>{property.location}</span>
+        </div>
 
         {/* Features */}
         <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-100">
@@ -190,38 +162,38 @@ export function PropertyCard({
 
         {/* Actions */}
         {isLocked ? (
-          <Button
-            className="w-full"
-            onClick={(e) => {
-              e.stopPropagation();
-              onMessageAgent();
-            }}
-          >
-            <MessageSquare className="w-4 h-4 mr-2" />
-            Contact Agent
-          </Button>
+          <div data-state="closed" data-slot="tooltip-trigger">
+            <Button
+              className="w-full opacity-50 cursor-not-allowed"
+              disabled
+            >
+              Contact Available Soon
+            </Button>
+          </div>
         ) : (
           <>
             <div className="grid grid-cols-2 gap-2">
               <Button
-                variant="outline"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onExpressInterest(property.id);
-                }}
-              >
-                Express Interest
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
+                className="w-full text-white"
+                style={{ backgroundColor: 'rgb(144, 202, 249)' }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onScheduleInspection(property.id);
                 }}
               >
-                Schedule Visit
+                <Calendar className="w-4 h-4 mr-1" />
+                Schedule
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onMessageAgent();
+                }}
+              >
+                <MessageSquare className="w-4 h-4 mr-1" />
+                Message
               </Button>
             </div>
           </>

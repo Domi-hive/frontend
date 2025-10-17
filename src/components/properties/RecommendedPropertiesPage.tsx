@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PropertyCard, type VisibilityLevel } from './PropertyCard';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { ScheduleInspectionModal } from './ScheduleInspectionModal';
+import { DashboardHeader } from '../dashboard/DashboardHeader';
 import { toast } from 'sonner';
 import { Search } from 'lucide-react';
 
@@ -254,13 +255,14 @@ export function RecommendedPropertiesPage() {
   );
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="p-8 max-w-[1400px]">
       {/* Header */}
-      <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>Recommended</h1>
-          <p className="text-sm text-gray-600">Here are properties that match your recent request preferences.</p>
-        </div>
+      <DashboardHeader />
+
+      {/* Page Title */}
+      <div className="mb-8">
+        <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>Recommended Properties</h1>
+        <p className="text-gray-600">Here are properties that match your recent request preferences.</p>
       </div>
 
       {/* Content */}
@@ -290,7 +292,7 @@ export function RecommendedPropertiesPage() {
               </div>
 
               {/* Property Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-3 gap-6">
                 {request.properties.map((property) => (
                   <PropertyCard
                     key={property.id}
