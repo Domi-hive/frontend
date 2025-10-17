@@ -136,11 +136,13 @@ export function InspectionsPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="p-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1>My Inspections</h1>
-        <p className="text-gray-600 mt-2">View and manage all your property inspection appointments.</p>
+      <div className="flex items-start justify-between mb-8">
+        <div>
+          <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>My Inspections</h1>
+          <p className="text-sm text-gray-600">View and manage all your property inspection appointments.</p>
+        </div>
       </div>
 
       {/* Tabs */}
