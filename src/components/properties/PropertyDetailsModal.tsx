@@ -42,8 +42,30 @@ export function PropertyDetailsModal({
   onExpressInterest,
 }: PropertyDetailsModalProps) {
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   if (!property) return null;
+
+  const openFullscreen = (imageUrl: string, index: number) => {
+    setFullscreenImage(imageUrl);
+    setCurrentImageIndex(index);
+  };
+
+  const closeFullscreen = () => {
+    setFullscreenImage(null);
+  };
+
+  const nextImage = () => {
+    const nextIndex = (currentImageIndex + 1) % property.images.length;
+    setCurrentImageIndex(nextIndex);
+    setFullscreenImage(property.images[nextIndex]);
+  };
+
+  const prevImage = () => {
+    const prevIndex = currentImageIndex === 0 ? property.images.length - 1 : currentImageIndex - 1;
+    setCurrentImageIndex(prevIndex);
+    setFullscreenImage(property.images[prevIndex]);
+  };
 
   const getAvailabilityBadge = () => {
     switch (property.visibilityLevel) {
@@ -115,7 +137,7 @@ export function PropertyDetailsModal({
                       />
                       <div
                         className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-300 flex items-center justify-center"
-                        onClick={() => setFullscreenImage(image)}
+                        onClick={() => openFullscreen(image, index)}
                       >
                         <div className="opacity-0 hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-full p-2">
                           <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,8 +149,6 @@ export function PropertyDetailsModal({
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="left-2" />
-              <CarouselNext className="right-2" />
             </Carousel>
           </div>
 
@@ -236,24 +256,131 @@ export function PropertyDetailsModal({
       {/* Fullscreen Image Modal */}
       {fullscreenImage && (
         <div
-          className="fixed inset-0 bg-black flex items-center justify-center"
-          style={{ zIndex: 10001 }}
-          onClick={() => setFullscreenImage(null)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'black',
+            zIndex: 10001,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onClick={closeFullscreen}
         >
+          {/* Close Button - Top Right */}
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setFullscreenImage(null);
+              closeFullscreen();
             }}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors bg-black/50 rounded-full p-2"
-            style={{ zIndex: 10002 }}
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              color: 'white',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              borderRadius: '50%',
+              padding: '8px',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10002
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'}
           >
-            <X className="w-6 h-6" />
+            <X size={24} />
           </button>
+
+          {/* Previous Button - Left Center */}
+          {property.images.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                prevImage();
+              }}
+              style={{
+                position: 'absolute',
+                left: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '50%',
+                padding: '12px',
+                border: 'none',
+                cursor: 'pointer',
+                zIndex: 10002
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'}
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+
+          {/* Next Button - Right Center */}
+          {property.images.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                nextImage();
+              }}
+              style={{
+                position: 'absolute',
+                right: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '50%',
+                padding: '12px',
+                border: 'none',
+                cursor: 'pointer',
+                zIndex: 10002
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'}
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
+
+          {/* Image Counter - Bottom Center */}
+          {property.images.length > 1 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                color: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '20px',
+                padding: '4px 12px',
+                fontSize: '14px',
+                zIndex: 10002
+              }}
+            >
+              {currentImageIndex + 1} / {property.images.length}
+            </div>
+          )}
+
+          {/* Centered Image */}
           <img
             src={fullscreenImage}
             alt="Fullscreen property image"
-            className="max-w-[90vw] max-h-[90vh] object-contain"
+            style={{
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              objectFit: 'contain'
+            }}
             onClick={(e) => e.stopPropagation()}
           />
         </div>
