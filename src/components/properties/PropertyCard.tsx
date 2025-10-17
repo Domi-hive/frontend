@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 export type VisibilityLevel = 'available' | 'active' | 'locked';
@@ -166,11 +167,13 @@ export function PropertyCard({
         {/* Features */}
         <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-100">
           <Avatar className="w-8 h-8">
-            <ImageWithFallback
+            <AvatarImage
               src={property.agent.avatar}
               alt={property.agent.name}
-              className="w-full h-full object-cover rounded-full"
             />
+            <AvatarFallback>
+              {property.agent.name.split(' ').map(n => n[0]).join('')}
+            </AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center gap-1">

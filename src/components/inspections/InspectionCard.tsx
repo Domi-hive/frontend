@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { ChevronDown, MapPin, Phone, Calendar, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { ChevronDown, MapPin, Phone, Calendar, CheckCircle, XCircle } from 'lucide-react';
 
 interface InspectionCardProps {
   inspection: {
@@ -59,115 +59,116 @@ export function InspectionCard({
       case 'scheduled':
         return <Calendar className="w-3 h-3" />;
       case 'pending':
-        return <AlertCircle className="w-3 h-3" />;
+        return <Calendar className="w-3 h-3" />;
       case 'completed':
         return <CheckCircle className="w-3 h-3" />;
       case 'cancelled':
         return <XCircle className="w-3 h-3" />;
       default:
-        return <AlertCircle className="w-3 h-3" />;
+        return <Calendar className="w-3 h-3" />;
     }
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      {/* Header */}
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-2">
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">{inspection.property}</h3>
-            <p className="text-gray-600 text-sm">{inspection.propertyType}</p>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full p-5 flex items-center justify-between text-left hover:bg-gray-50/50 transition-colors"
+      >
+        <div className="flex-1">
+          <div className="flex items-start justify-between mb-2">
+            <h3 className="font-medium pr-4">{inspection.property}</h3>
+            <Badge className={`${getStatusColor(inspection.status)} flex items-center gap-1 text-xs px-2 py-1`}>
+              {getStatusIcon(inspection.status)}
+              {inspection.status.charAt(0).toUpperCase() + inspection.status.slice(1)}
+            </Badge>
           </div>
-          <Badge className={`${getStatusColor(inspection.status)} flex items-center gap-1 text-xs px-2 py-1`}>
-            {getStatusIcon(inspection.status)}
-            {inspection.status.charAt(0).toUpperCase() + inspection.status.slice(1)}
-          </Badge>
-        </div>
 
-        {/* Date and Time */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="flex items-center gap-2 text-gray-600">
-            <Calendar className="w-4 h-4" />
-            <span className="text-sm">{inspection.date}</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-600">
-            <Clock className="w-4 h-4" />
-            <span className="text-sm">{inspection.time}</span>
-          </div>
-        </div>
-
-        {/* Location */}
-        <div className="flex items-start gap-2 mb-4">
-          <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
-          <span className="text-sm text-gray-600">{inspection.location}</span>
-        </div>
-
-        {/* Agent Info */}
-        <div className="flex items-center gap-3">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src={inspection.agent.avatar} alt={inspection.agent.name} />
-            <AvatarFallback>{inspection.agent.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-900">{inspection.agent.name}</span>
-              {inspection.agent.verified && <CheckCircle className="w-4 h-4 text-green-600" />}
+          <div className="flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-1">
+              <Calendar className="w-4 h-4" />
+              <span>{inspection.date}</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Phone className="w-3 h-3" />
-              <span className="text-xs">{inspection.agent.phone}</span>
+            <div className="flex items-center gap-1">
+              <span>•</span>
+              <span>{inspection.time}</span>
             </div>
           </div>
+
+          <div className="flex items-center gap-2 mt-2">
+            <Avatar className="w-6 h-6">
+              <AvatarImage src={inspection.agent.avatar} alt={inspection.agent.name} />
+              <AvatarFallback>{inspection.agent.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+            </Avatar>
+            <span className="text-sm text-gray-700">{inspection.agent.name}</span>
+            {inspection.agent.verified && <CheckCircle className="w-4 h-4" style={{ color: '#90CAF9' }} />}
+          </div>
         </div>
-      </div>
 
-      {/* Expandable Actions */}
-      {!isHistory && (
-        <div className="border-t border-gray-100">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="w-full px-6 py-3 flex items-center justify-between text-sm text-gray-600 hover:bg-gray-50 transition-colors"
-          >
-            <span>Actions</span>
-            <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-          </button>
+        <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+      </button>
 
-          {expanded && (
-            <div className="px-6 pb-4">
-              <div className="grid grid-cols-2 gap-2">
-                {onGetDirections && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onGetDirections(inspection.location)}
-                    className="text-xs"
-                  >
-                    Get Directions
-                  </Button>
-                )}
-                {onReschedule && inspection.status !== 'cancelled' && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onReschedule(inspection.id)}
-                    className="text-xs"
-                  >
-                    Reschedule
-                  </Button>
-                )}
-                {onCancel && inspection.status !== 'cancelled' && inspection.status !== 'completed' && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onCancel(inspection.id)}
-                    className="text-xs text-red-600 border-red-200 hover:bg-red-50"
-                  >
-                    Cancel
-                  </Button>
-                )}
+      {expanded && (
+        <div className="px-5 pb-5 border-t border-gray-100 pt-4 animate-in slide-in-from-top-2 duration-200">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <div className="text-xs text-gray-500 mb-1">Property</div>
+              <div className="text-sm">{inspection.propertyType}</div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500 mb-1">Date</div>
+              <div className="text-sm">{inspection.date}</div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500 mb-1">Time</div>
+              <div className="text-sm">{inspection.time}</div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-500 mb-1">Agent</div>
+              <div className="text-sm flex items-center gap-1">
+                {inspection.agent.name}
+                {inspection.agent.verified && <CheckCircle className="w-3 h-3" style={{ color: '#90CAF9' }} />}
               </div>
             </div>
-          )}
+          </div>
+
+          <div className="mb-4">
+            <div className="text-xs text-gray-500 mb-1">Location</div>
+            <div className="text-sm">{inspection.location}</div>
+          </div>
+
+          <div className="mb-4">
+            <div className="text-xs text-gray-500 mb-1">Agent Phone</div>
+            <div className="text-sm">{inspection.agent.phone}</div>
+          </div>
+
+          <div className="mb-4 p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#1565C0' }}></div>
+              <span className="text-sm" style={{ color: '#1565C0' }}>Inspection confirmed and ready</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            {onGetDirections && (
+              <Button variant="outline" className="w-full">
+                <MapPin className="w-4 h-4 mr-2" />
+                Get Directions
+              </Button>
+            )}
+            {onReschedule && inspection.status !== 'cancelled' && (
+              <Button variant="outline" className="w-full">
+                <Calendar className="w-4 h-4 mr-2" />
+                Reschedule
+              </Button>
+            )}
+            {onCancel && inspection.status !== 'cancelled' && inspection.status !== 'completed' && (
+              <Button variant="outline" className="w-full text-red-500 border-red-200 hover:bg-red-50">
+                <XCircle className="w-4 h-4 mr-2" />
+                Cancel
+              </Button>
+            )}
+          </div>
         </div>
       )}
     </div>
