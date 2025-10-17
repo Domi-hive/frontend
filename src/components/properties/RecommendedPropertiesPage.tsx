@@ -256,11 +256,11 @@ export function RecommendedPropertiesPage() {
   return (
     <div className="p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1>Recommended Properties</h1>
-        <p className="text-gray-600 mt-2">
-          Here are properties that match your recent request preferences.
-        </p>
+      <div className="flex items-start justify-between mb-8">
+        <div>
+          <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>Recommended</h1>
+          <p className="text-sm text-gray-600">Here are properties that match your recent request preferences.</p>
+        </div>
       </div>
 
       {/* Content */}

@@ -147,14 +147,14 @@ export function InspectionsPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="mb-6 bg-gray-100">
-          <TabsTrigger value="upcoming" className="data-[state=active]:bg-white">
+        <div role="tablist" aria-orientation="horizontal" className="text-muted-foreground h-9 w-fit items-center justify-center rounded-xl p-[3px] flex mb-6 bg-gray-100" tabIndex={0} data-orientation="horizontal" style={{ outline: 'currentcolor' }}>
+          <button type="button" role="tab" aria-selected={activeTab === 'upcoming'} aria-controls="radix-:r0:-content-upcoming" data-state={activeTab === 'upcoming' ? 'active' : 'inactive'} id="radix-:r0:-trigger-upcoming" className="dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-xl border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[state=active]:bg-white" tabIndex={-1} data-orientation="horizontal">
             Upcoming Inspections
-          </TabsTrigger>
-          <TabsTrigger value="history" className="data-[state=active]:bg-white">
+          </button>
+          <button type="button" role="tab" aria-selected={activeTab === 'history'} aria-controls="radix-:r0:-content-history" data-state={activeTab === 'history' ? 'active' : 'inactive'} id="radix-:r0:-trigger-history" className="dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-xl border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[state=active]:bg-white" tabIndex={-1} data-orientation="horizontal">
             Inspection History
-          </TabsTrigger>
-        </TabsList>
+          </button>
+        </div>
 
         <TabsContent value="upcoming" className="space-y-4 animate-in fade-in-50 duration-300">
           {inspections.filter((i) => i.status !== 'cancelled').length === 0 ? (

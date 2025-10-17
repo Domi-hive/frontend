@@ -23,7 +23,7 @@ export function DashboardSidebar() {
     { icon: Mail, label: 'Messages', path: '/dashboard/messages' },
     { icon: BookOpen, label: 'Requests', path: '/dashboard/requests' },
     { icon: CheckSquare, label: 'Inspections', path: '/dashboard/inspections' },
-    { icon: Building2, label: 'Recommended Properties', path: '/dashboard/properties' },
+    { icon: Building2, label: 'Recommended', path: '/dashboard/properties' },
   ];
   
   const connections = [

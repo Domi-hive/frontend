@@ -158,17 +158,20 @@ export function RequestsTabs({ activeTab, onTabChange }: RequestsTabsProps) {
   return (
     <div>
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 mb-6 border-b border-gray-200">
+      <div role="tablist" aria-orientation="horizontal" className="text-muted-foreground h-9 w-fit items-center justify-center rounded-xl p-[3px] flex mb-6 bg-gray-100" tabIndex={0} data-orientation="horizontal" style={{ outline: 'currentcolor' }}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls={`radix-:r0:-content-${tab.id}`}
+            data-state={activeTab === tab.id ? 'active' : 'inactive'}
+            id={`radix-:r0:-trigger-${tab.id}`}
+            className="dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-xl border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[state=active]:bg-white"
+            tabIndex={-1}
+            data-orientation="horizontal"
             onClick={() => onTabChange(tab.id)}
-            className={`relative px-6 py-3 text-sm transition-all duration-200 ${
-              activeTab === tab.id
-                ? 'text-[#1565C0]'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-            style={{ fontWeight: activeTab === tab.id ? 600 : 500 }}
           >
             {tab.label}
             {tab.count > 0 && (
@@ -179,9 +182,6 @@ export function RequestsTabs({ activeTab, onTabChange }: RequestsTabsProps) {
               }`}>
                 {tab.count}
               </span>
-            )}
-            {activeTab === tab.id && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1565C0]"></div>
             )}
           </button>
         ))}
