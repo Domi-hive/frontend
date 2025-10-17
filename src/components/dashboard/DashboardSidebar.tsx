@@ -8,7 +8,7 @@ export function DashboardSidebar() {
     currentPath === '/dashboard/messages' ? 'Messages' :
     currentPath === '/dashboard/requests' ? 'Requests' :
     currentPath === '/dashboard/inspections' ? 'Inspections' :
-    currentPath === '/dashboard/properties' ? 'Recommended Properties' :
+    currentPath === '/dashboard/properties' ? 'Recommended' :
     'Dashboard'
   );
   

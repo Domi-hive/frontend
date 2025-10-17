@@ -1,8 +1,4 @@
-import { Lock, Heart, CheckCircle, MapPin, Calendar, MessageSquare } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Heart, ShieldCheck } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 export type VisibilityLevel = 'available' | 'active' | 'locked';
@@ -43,161 +39,89 @@ export function PropertyCard({
   onSaveWishlist,
   onViewDetails,
 }: PropertyCardProps) {
-
-  const getAvailabilityBadge = () => {
+  const getInspectionStatus = () => {
     switch (property.visibilityLevel) {
       case 'available':
-        return (
-          <Badge className="bg-green-100 text-green-700 text-xs px-3 py-1">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            Confirmed Available
-          </Badge>
-        );
+        return {
+          status: 'Available for Inspection',
+          color: 'bg-emerald-50 text-emerald-700',
+        };
       case 'active':
-        return (
-          <Badge className="bg-[#90CAF9] text-[#1565C0] text-xs px-3 py-1">
-            <Calendar className="w-3 h-3 mr-1" />
-            Available for Inspection
-          </Badge>
-        );
+        return {
+          status: 'Available for Inspection',
+          color: 'bg-emerald-50 text-emerald-700',
+        };
       case 'locked':
-        return (
-          <Badge className="bg-gray-100 text-gray-600 text-xs px-3 py-1">
-            <Lock className="w-3 h-3 mr-1" />
-            Pending Confirmation
-          </Badge>
-        );
+        return {
+          status: 'Inspection Scheduled',
+          color: 'bg-blue-50 text-[#1565C0]',
+        };
       default:
-        return null;
+        return {
+          status: 'Available for Inspection',
+          color: 'bg-emerald-50 text-emerald-700',
+        };
     }
   };
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    // Don't trigger card click if clicking on buttons
-    if ((e.target as HTMLElement).closest('button')) {
-      return;
-    }
-    onViewDetails(property.id);
-  };
-
-  const isLocked = property.visibilityLevel === 'locked';
+  const inspectionInfo = getInspectionStatus();
 
   return (
-    <div
-      className={`bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md ${isLocked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-      onClick={handleCardClick}
-    >
+    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 group">
       {/* Image */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-40 overflow-hidden">
         <ImageWithFallback
           src={property.image}
           alt={property.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-
-        {/* Availability Badge */}
-        <div className="absolute top-3 left-3">
-          {getAvailabilityBadge()}
-        </div>
-
-        {/* Wishlist Button */}
-        <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onSaveWishlist(property.id);
+          }}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors"
+        >
           <Heart className="w-4 h-4 text-gray-600" />
         </button>
-
-        {/* Lock Overlay */}
-        {isLocked && (
-          <TooltipProvider>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="bg-white rounded-lg p-4 shadow-lg">
-                    <Lock className="w-8 h-8 text-gray-600 mx-auto mb-2" />
-                    <p className="text-sm text-gray-900 font-medium">Premium Property</p>
-                    <p className="text-xs text-gray-600">Contact agent to unlock</p>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>This property requires agent verification</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          </TooltipProvider>
-        )}
       </div>
 
       {/* Content */}
       <div className="p-4">
-        {/* Title */}
-        <h3 className="text-lg mb-1">{property.title}</h3>
-        <div className="text-xl mb-2" style={{ color: 'rgb(21, 101, 192)' }}>{property.price}</div>
-        <div className="flex items-center gap-1 text-sm text-gray-600">
-          <MapPin className="w-4 h-4" />
-          <span>{property.location}</span>
+        {/* Price */}
+        <div className="mb-2">
+          <span className="text-lg text-[#1565C0]" style={{ fontWeight: 600 }}>{property.price}</span>
+          <span className="text-sm text-gray-500">/month</span>
         </div>
 
-        {/* Features */}
-        <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-100">
-          <Avatar className="w-8 h-8">
-            <AvatarImage
-              src={property.agent.avatar}
-              alt={property.agent.name}
-            />
-            <AvatarFallback>
-              {property.agent.name.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1">
+        {/* Title & Location */}
+        <h4 className="text-sm text-gray-900 mb-0.5" style={{ fontWeight: 600 }}>{property.title}</h4>
+        <p className="text-xs text-gray-500 mb-3">{property.location}</p>
+
+        {/* Inspection Status */}
+        <div className="mb-3">
+          <span className={`inline-flex px-2.5 py-1 rounded-lg ${inspectionInfo.color} text-xs`} style={{ fontWeight: 600 }}>
+            {inspectionInfo.status}
+          </span>
+        </div>
+
+        {/* Agent Info */}
+        <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
+          <ImageWithFallback
+            src={property.agent.avatar}
+            alt={property.agent.name}
+            className="w-7 h-7 rounded-full object-cover"
+          />
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
-              <span className="text-sm font-medium text-gray-900">{property.agent.name}</span>
-              {property.agent.verified && <CheckCircle className="w-4 h-4 text-green-600" />}
+              <span className="text-xs text-gray-900 truncate" style={{ fontWeight: 600 }}>{property.agent.name}</span>
+              {property.agent.verified && (
+                <ShieldCheck className="w-3 h-3 text-[#1565C0] flex-shrink-0" />
+              )}
             </div>
-            <div className="text-xs text-gray-600">
-              {property.bedrooms && `${property.bedrooms} bed • `}
-              {property.bathrooms && `${property.bathrooms} bath • `}
-              {property.size}
-            </div>
+            <p className="text-xs text-gray-500">Verified Agent</p>
           </div>
         </div>
-
-        {/* Actions */}
-        {isLocked ? (
-          <div data-state="closed" data-slot="tooltip-trigger">
-            <Button
-              className="w-full opacity-50 cursor-not-allowed"
-              disabled
-            >
-              Contact Available Soon
-            </Button>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-2 gap-2">
-              <Button
-                className="w-full text-white"
-                style={{ backgroundColor: 'rgb(144, 202, 249)' }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onScheduleInspection(property.id);
-                }}
-              >
-                <Calendar className="w-4 h-4 mr-1" />
-                Schedule
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onMessageAgent();
-                }}
-              >
-                <MessageSquare className="w-4 h-4 mr-1" />
-                Message
-              </Button>
-            </div>
-          </>
-        )}
       </div>
     </div>
   );
