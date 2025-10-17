@@ -274,11 +274,11 @@ export function RecommendedPropertiesPage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-16">
           {propertyRequests.map((request) => (
             <div key={request.id}>
               {/* Request Header */}
-              <div className="mb-6">
+              <div className="mb-6 mt-6">
                 <div className="flex items-baseline gap-3 mb-1">
                   <h3>Request: {request.title}</h3>
                   <span className="text-gray-600">Budget {request.budget}</span>
