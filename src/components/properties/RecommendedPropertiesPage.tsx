@@ -255,7 +255,7 @@ export function RecommendedPropertiesPage() {
   );
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Page Title */}
       <div className="mb-8">
         <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>Recommended Properties</h1>

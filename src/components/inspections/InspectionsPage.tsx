@@ -136,7 +136,7 @@ export function InspectionsPage() {
   };
 
   return (
-    <div className="p-8">
+    <div>
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
