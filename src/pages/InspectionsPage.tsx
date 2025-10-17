@@ -10,11 +10,13 @@ export function InspectionsPage() {
 
       {/* Main Content */}
       <div className="flex-1 ml-64">
-        {/* Header */}
-        <DashboardHeader />
+        <div className="p-8 max-w-[1400px]">
+          {/* Header */}
+          <DashboardHeader />
 
-        {/* Inspections Content */}
-        <InspectionsContent />
+          {/* Inspections Content */}
+          <InspectionsContent />
+        </div>
       </div>
     </div>
   );
