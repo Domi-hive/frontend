@@ -30,7 +30,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
   const handleSignup = async (data: SignupFormData) => {
     try {
-      const response = await fetch('https://s-dev.domihive.com/api/auth/signup', {
+      const response = await fetch('https://s-dev.domihive.com/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
   const handleLogin = async (data: LoginFormData) => {
     try {
-      const response = await fetch('https://s-dev.domihive.com/api/auth/login', {
+      const response = await fetch('https://s-dev.domihive.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
