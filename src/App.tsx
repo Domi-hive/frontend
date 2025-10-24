@@ -5,13 +5,21 @@ import { MessagesPage } from './pages/MessagesPage';
 import { RequestsPage } from './pages/RequestsPage';
 import { InspectionsPage } from './pages/InspectionsPage';
 import { RecommendedPropertiesPage } from './pages/RecommendedPropertiesPage';
+import { AgentDashboard } from './pages/AgentDashboard';
+import { AgentLeads } from './pages/AgentLeads';
+import { AgentRequests } from './pages/AgentRequests';
+import { AgentInspections } from './pages/AgentInspections';
+import { AgentAnalytics } from './pages/AgentAnalytics';
+import { AgentMessages } from './pages/AgentMessages';
 import { MobileNav } from './components/MobileNav';
+import AuthModal from './components/AuthModal';
 import { Home } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function App() {
   // Client-side routing state
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Handle browser back/forward buttons
   useEffect(() => {
@@ -51,6 +59,31 @@ export default function App() {
     return <RecommendedPropertiesPage />;
   }
 
+  // Agent routes
+  if (currentPath === '/agent') {
+    return <AgentDashboard />;
+  }
+
+  if (currentPath === '/agent/leads') {
+    return <AgentLeads />;
+  }
+
+  if (currentPath === '/agent/requests') {
+    return <AgentRequests />;
+  }
+
+  if (currentPath === '/agent/inspections') {
+    return <AgentInspections />;
+  }
+
+  if (currentPath === '/agent/analytics') {
+    return <AgentAnalytics />;
+  }
+
+  if (currentPath === '/agent/messages') {
+    return <AgentMessages />;
+  }
+
   return (
     <div className="min-h-screen">
       {/* Navigation - Fixed across all pages */}
@@ -74,14 +107,15 @@ export default function App() {
           
           {/* Desktop Auth Buttons */}
           <div className="hidden lg:flex items-center gap-4">
-            <button 
-              onClick={() => navigate('/dashboard')}
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
               className="text-blue-100 text-sm hover:text-white transition-colors duration-300"
             >
               Login
             </button>
-            <button 
-              className="bg-white text-[#1565C0] px-5 py-2 rounded-lg text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300" 
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              className="bg-white text-[#1565C0] px-5 py-2 rounded-lg text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
               style={{ fontWeight: 500 }}
             >
               Sign Up
@@ -95,6 +129,9 @@ export default function App() {
 
       {/* Route-based page rendering */}
       {currentPath === '/agents' ? <AgentsPage /> : <HomePage />}
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   );
 }
