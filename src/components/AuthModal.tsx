@@ -5,6 +5,8 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useForm } from 'react-hook-form';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Label } from './ui/label';
 import { Check, X } from 'lucide-react';
 
 interface AuthModalProps {
@@ -17,6 +19,7 @@ interface SignupFormData {
   email: string;
   password: string;
   fullName: string;
+  role: 'user' | 'agent';
 }
 
 interface LoginFormData {
@@ -26,9 +29,13 @@ interface LoginFormData {
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
+  const [selectedRole, setSelectedRole] = useState<'user' | 'agent'>('user');
+  const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
+  const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false);
 
   const signupForm = useForm<SignupFormData>();
   const loginForm = useForm<LoginFormData>();
+  const forgotPasswordForm = useForm<{ email: string }>();
 
   const password = signupForm.watch('password');
 
@@ -54,14 +61,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
         body: JSON.stringify({
           email: data.email,
           password: data.password,
-          role: 'user',
+          role: data.role,
           fullName: data.fullName,
         }),
       });
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('authToken', data.token);
-        navigate('/dashboard');
+        const responseData = await response.json();
+        localStorage.setItem('authToken', responseData.token);
+        localStorage.setItem('userRole', responseData.role || selectedRole);
+        navigate(selectedRole === 'agent' ? '/agent' : '/dashboard');
         onClose();
       } else {
         alert('Signup failed!');
@@ -87,7 +95,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('authToken', data.token);
-        navigate('/dashboard');
+        localStorage.setItem('userRole', data.role);
+        navigate(data.role === 'agent' ? '/agent' : '/dashboard');
         onClose();
       } else {
         alert('Login failed!');
@@ -95,6 +104,33 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
     } catch (error) {
       console.error('Login error:', error);
       alert('Login error!');
+    }
+  };
+
+  const handleForgotPassword = async (data: { email: string }) => {
+    try {
+      const response = await fetch('https://s-dev.domihive.com/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+        }),
+      });
+      if (response.ok) {
+        forgotPasswordForm.reset();
+        setForgotPasswordSuccess(true);
+        setTimeout(() => {
+          setForgotPasswordSuccess(false);
+          setForgotPasswordMode(false);
+        }, 3000);
+      } else {
+        alert('Failed to send reset link. Please try again.');
+      }
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      alert('Error sending reset link. Please check your connection and try again.');
     }
   };
 
@@ -121,39 +157,96 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
               <TabsTrigger value="signup" className="tab-transition hover:bg-[#BBDEFB] hover:shadow-md hover:-translate-y-0.5" style={{ backgroundColor: activeTab === 'signup' ? '#F5FAFF' : '#E3F2FD' }}>Sign Up</TabsTrigger>
             </TabsList>
           <TabsContent value="login" className={`transition-all duration-300 ${activeTab === 'login' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-            <Form {...loginForm}>
-              <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
-                <FormField
-                  control={loginForm.control}
-                  name="email"
-                  rules={{ required: 'Email is required' }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="user@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={loginForm.control}
-                  name="password"
-                  rules={{ required: 'Password is required' }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="yourPassword123" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5" style={{ fontWeight: 600 }}>Login</Button>
-              </form>
-            </Form>
+            {forgotPasswordMode ? (
+              forgotPasswordSuccess ? (
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                    <Check className="w-8 h-8 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Reset Link Sent!</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Check your email for a password reset link. It may take a few minutes to arrive.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() => setForgotPasswordMode(false)}
+                    className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
+                    style={{ fontWeight: 600 }}
+                  >
+                    Back to Login
+                  </Button>
+                </div>
+              ) : (
+                <Form {...forgotPasswordForm}>
+                  <form onSubmit={forgotPasswordForm.handleSubmit(handleForgotPassword)} className="space-y-4">
+                    <FormField
+                      control={forgotPasswordForm.control}
+                      name="email"
+                      rules={{ required: 'Email is required' }}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="user@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5" style={{ fontWeight: 600 }}>Send Reset Link</Button>
+                    <button
+                      type="button"
+                      onClick={() => setForgotPasswordMode(false)}
+                      className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                      Back to Login
+                    </button>
+                  </form>
+                </Form>
+              )
+            ) : (
+              <Form {...loginForm}>
+                <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
+                  <FormField
+                    control={loginForm.control}
+                    name="email"
+                    rules={{ required: 'Email is required' }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="user@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={loginForm.control}
+                    name="password"
+                    rules={{ required: 'Password is required' }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" placeholder="yourPassword123" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5" style={{ fontWeight: 600 }}>Login</Button>
+                  <button
+                    type="button"
+                    onClick={() => setForgotPasswordMode(true)}
+                    className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                  >
+                    Forgot Password?
+                  </button>
+                </form>
+              </Form>
+            )}
           </TabsContent>
           <TabsContent value="signup" className={`transition-all duration-300 ${activeTab === 'signup' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
             <Form {...signupForm}>
@@ -255,6 +348,35 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
                         <Input placeholder="John Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={signupForm.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>I am a:</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setSelectedRole(value as 'user' | 'agent');
+                          }}
+                          defaultValue={field.value}
+                          className="flex flex-row space-x-4"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="user" id="user" />
+                            <Label htmlFor="user">Client</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="agent" id="agent" />
+                            <Label htmlFor="agent">Agent</Label>
+                          </div>
+                        </RadioGroup>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
