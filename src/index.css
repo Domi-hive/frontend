@@ -2949,6 +2949,14 @@ html {
   transition: background-color 0.3s ease-in-out;
 }
 
+[data-slot="tabs-trigger"] {
+  border: none !important;
+}
+
+[data-slot="tabs-trigger"][data-state="active"] {
+  border: none !important;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;

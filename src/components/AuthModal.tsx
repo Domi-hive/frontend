@@ -143,7 +143,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
         <div className="flex items-end justify-end p-4">
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors"
+            className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors cursor-pointer hover:scale-110"
           >
             ✕
           </button>
@@ -153,8 +153,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
         <div className="px-6 pb-6">
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'login' | 'signup')}>
             <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#E3F2FD]">
-              <TabsTrigger value="login" className="tab-transition hover:bg-[#BBDEFB] hover:shadow-md hover:-translate-y-0.5" style={{ backgroundColor: activeTab === 'login' ? '#F5FAFF' : '#E3F2FD' }}>Login</TabsTrigger>
-              <TabsTrigger value="signup" className="tab-transition hover:bg-[#BBDEFB] hover:shadow-md hover:-translate-y-0.5" style={{ backgroundColor: activeTab === 'signup' ? '#F5FAFF' : '#E3F2FD' }}>Sign Up</TabsTrigger>
+              <TabsTrigger value="login" className="tab-transition cursor-pointer" style={{ backgroundColor: activeTab === 'login' ? '#F5FAFF' : '#E3F2FD' }}>
+                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200 rounded px-1">Login</span>
+              </TabsTrigger>
+              <TabsTrigger value="signup" className="tab-transition cursor-pointer" style={{ backgroundColor: activeTab === 'signup' ? '#F5FAFF' : '#E3F2FD' }}>
+                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200 rounded px-1">Sign Up</span>
+              </TabsTrigger>
             </TabsList>
           <TabsContent value="login" className={`transition-all duration-300 ${activeTab === 'login' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
             {forgotPasswordMode ? (
@@ -171,7 +175,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                   </div>
                   <Button
                     onClick={() => setForgotPasswordMode(false)}
-                    className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
+                    className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer"
                     style={{ fontWeight: 600 }}
                   >
                     Back to Login
@@ -194,11 +198,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5" style={{ fontWeight: 600 }}>Send Reset Link</Button>
+                    <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" style={{ fontWeight: 600 }}>Send Reset Link</Button>
                     <button
                       type="button"
                       onClick={() => setForgotPasswordMode(false)}
-                      className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                      className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
                     >
                       Back to Login
                     </button>
@@ -236,11 +240,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5" style={{ fontWeight: 600 }}>Login</Button>
+                  <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" style={{ fontWeight: 600 }}>Login</Button>
                   <button
                     type="button"
                     onClick={() => setForgotPasswordMode(true)}
-                    className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
                   >
                     Forgot Password?
                   </button>
@@ -368,13 +372,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                           defaultValue={field.value}
                           className="flex flex-row space-x-4"
                         >
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 hover:scale-105 transition-all duration-200 rounded-lg px-2 py-1">
                             <RadioGroupItem value="user" id="user" />
-                            <Label htmlFor="user">Client</Label>
+                            <Label htmlFor="user" className="cursor-pointer">Client</Label>
                           </div>
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 hover:scale-105 transition-all duration-200 rounded-lg px-2 py-1">
                             <RadioGroupItem value="agent" id="agent" />
-                            <Label htmlFor="agent">Agent</Label>
+                            <Label htmlFor="agent" className="cursor-pointer">Agent</Label>
                           </div>
                         </RadioGroup>
                       </FormControl>
@@ -382,7 +386,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5" style={{ fontWeight: 600 }}>Sign Up</Button>
+                <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" style={{ fontWeight: 600 }}>Sign Up</Button>
               </form>
             </Form>
           </TabsContent>
