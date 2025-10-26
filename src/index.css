@@ -2945,6 +2945,10 @@ html {
   }
 }
 
+.tab-transition {
+  transition: background-color 0.3s ease-in-out;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
