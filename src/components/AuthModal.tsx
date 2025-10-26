@@ -10,6 +10,7 @@ import { Check, X } from 'lucide-react';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  navigate: (path: string) => void;
 }
 
 interface SignupFormData {
@@ -23,7 +24,7 @@ interface LoginFormData {
   password: string;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
 
   const signupForm = useForm<SignupFormData>();
@@ -58,7 +59,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         }),
       });
       if (response.ok) {
-        alert('Signup successful!');
+        const data = await response.json();
+        localStorage.setItem('authToken', data.token);
+        navigate('/dashboard');
         onClose();
       } else {
         alert('Signup failed!');
@@ -82,7 +85,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         }),
       });
       if (response.ok) {
-        alert('Login successful!');
+        const data = await response.json();
+        localStorage.setItem('authToken', data.token);
+        navigate('/dashboard');
         onClose();
       } else {
         alert('Login failed!');

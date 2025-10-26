@@ -21,6 +21,15 @@ export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
+  // Check authentication
+  const isAuthenticated = localStorage.getItem('authToken') !== null;
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    navigate('/');
+  };
+
   // Handle browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
@@ -38,50 +47,45 @@ export default function App() {
     window.scrollTo(0, 0);
   };
 
-  // Dashboard routes don't need the main navigation
-  if (currentPath === '/dashboard') {
-    return <DashboardPage />;
+  // Dashboard routes - require authentication
+  if (currentPath.startsWith('/dashboard') && isAuthenticated) {
+    if (currentPath === '/dashboard') {
+      return <DashboardPage onLogout={handleLogout} />;
+    }
+    if (currentPath === '/dashboard/messages') {
+      return <MessagesPage />;
+    }
+    if (currentPath === '/dashboard/requests') {
+      return <RequestsPage />;
+    }
+    if (currentPath === '/dashboard/inspections') {
+      return <InspectionsPage />;
+    }
+    if (currentPath === '/dashboard/properties') {
+      return <RecommendedPropertiesPage />;
+    }
   }
 
-  if (currentPath === '/dashboard/messages') {
-    return <MessagesPage />;
-  }
-
-  if (currentPath === '/dashboard/requests') {
-    return <RequestsPage />;
-  }
-
-  if (currentPath === '/dashboard/inspections') {
-    return <InspectionsPage />;
-  }
-
-  if (currentPath === '/dashboard/properties') {
-    return <RecommendedPropertiesPage />;
-  }
-
-  // Agent routes
-  if (currentPath === '/agent') {
-    return <AgentDashboard />;
-  }
-
-  if (currentPath === '/agent/leads') {
-    return <AgentLeads />;
-  }
-
-  if (currentPath === '/agent/requests') {
-    return <AgentRequests />;
-  }
-
-  if (currentPath === '/agent/inspections') {
-    return <AgentInspections />;
-  }
-
-  if (currentPath === '/agent/analytics') {
-    return <AgentAnalytics />;
-  }
-
-  if (currentPath === '/agent/messages') {
-    return <AgentMessages />;
+  // Agent routes - require authentication
+  if (currentPath.startsWith('/agent') && isAuthenticated) {
+    if (currentPath === '/agent') {
+      return <AgentDashboard onLogout={handleLogout} />;
+    }
+    if (currentPath === '/agent/leads') {
+      return <AgentLeads />;
+    }
+    if (currentPath === '/agent/requests') {
+      return <AgentRequests />;
+    }
+    if (currentPath === '/agent/inspections') {
+      return <AgentInspections />;
+    }
+    if (currentPath === '/agent/analytics') {
+      return <AgentAnalytics />;
+    }
+    if (currentPath === '/agent/messages') {
+      return <AgentMessages />;
+    }
   }
 
   return (
@@ -131,7 +135,7 @@ export default function App() {
       {currentPath === '/agents' ? <AgentsPage /> : <HomePage />}
 
       {/* Auth Modal */}
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} navigate={navigate} />
     </div>
   );
 }

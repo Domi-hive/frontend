@@ -2,7 +2,11 @@ import { Home, Mail, BookOpen, CheckSquare, Users, Settings, LogOut, Building2 }
 import { useState } from 'react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
-export function DashboardSidebar() {
+interface DashboardSidebarProps {
+  onLogout: () => void;
+}
+
+export function DashboardSidebar({ onLogout }: DashboardSidebarProps) {
   const currentPath = window.location.pathname;
   const [activeItem, setActiveItem] = useState(
     currentPath === '/dashboard/messages' ? 'Messages' :
@@ -108,7 +112,7 @@ export function DashboardSidebar() {
           <Settings className="w-5 h-5" />
           <span className="text-sm" style={{ fontWeight: 500 }}>Setting</span>
         </button>
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors">
+        <button onClick={onLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors">
           <LogOut className="w-5 h-5" />
           <span className="text-sm" style={{ fontWeight: 500 }}>Logout</span>
         </button>

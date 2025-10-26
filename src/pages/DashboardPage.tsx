@@ -6,11 +6,15 @@ import { ContinueSearching } from '../components/dashboard/ContinueSearching';
 import { YourRequests } from '../components/dashboard/YourRequests';
 import { AgentsList } from '../components/dashboard/AgentsList';
 
-export function DashboardPage() {
+interface DashboardPageProps {
+  onLogout: () => void;
+}
+
+export function DashboardPage({ onLogout }: DashboardPageProps) {
   return (
     <div className="flex min-h-screen bg-[#F5FAFF]">
       {/* Sidebar */}
-      <DashboardSidebar />
+      <DashboardSidebar onLogout={onLogout} />
       
       {/* Main Content */}
       <div className="flex-1 ml-64">
