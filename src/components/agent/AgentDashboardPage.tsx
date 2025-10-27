@@ -60,7 +60,7 @@ export function AgentDashboardPage() {
   ];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto bg-gray-50 min-h-screen">
+    <div className="p-8 max-w-[1400px]">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-[#E3F2FD] to-white rounded-3xl p-10 mb-8 overflow-hidden animate-fadeIn">
         {/* Subtle decoration */}
@@ -78,166 +78,251 @@ export function AgentDashboardPage() {
         </div>
       </div>
 
-      {/* New Grid Layout - Phase 1 Foundation */}
-
-      {/* Top Section: Quick Stats Cards - Horizontal Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fadeIn">
-        {/* KPI Card 1: Leads This Week */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl text-[#0D1B2A] mb-1" style={{ fontWeight: 600 }}>8</div>
-              <div className="text-sm text-gray-600">Leads this week</div>
+      {/* Progress Cards - copied from client dashboard */}
+      <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="relative bg-gradient-to-br from-[#E3F2FD] to-[#BBDEFB]/30 rounded-2xl p-6 border border-blue-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 group overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                <Users className="w-6 h-6 text-[#1565C0]" />
+              </div>
             </div>
-            <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">+12%</div>
+            <div className="mb-1">
+              <span className="text-3xl text-[#0D1B2A]" style={{ fontWeight: 600 }}>8</span>
+            </div>
+            <div className="text-sm text-gray-700 mb-1">leads this week</div>
+            <div className="text-xs text-gray-600 mb-4" style={{ fontWeight: 600, letterSpacing: '0.3px' }}>
+              Leads this week
+            </div>
+            <button className="flex items-center gap-1.5 text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors group-hover:gap-2 duration-300" style={{ fontWeight: 600 }}>
+              <span>View all</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* KPI Card 2: Property Requests */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl text-[#0D1B2A] mb-1" style={{ fontWeight: 600 }}>5</div>
-              <div className="text-sm text-gray-600">Ongoing requests</div>
+        <div className="relative bg-gradient-to-br from-[#E3F2FD] to-[#BBDEFB]/30 rounded-2xl p-6 border border-blue-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 group overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                <Search className="w-6 h-6 text-[#1565C0]" />
+              </div>
             </div>
-            <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">3 new</div>
+            <div className="mb-1">
+              <span className="text-3xl text-[#0D1B2A]" style={{ fontWeight: 600 }}>5</span>
+            </div>
+            <div className="text-sm text-gray-700 mb-1">ongoing requests</div>
+            <div className="text-xs text-gray-600 mb-4" style={{ fontWeight: 600, letterSpacing: '0.3px' }}>
+              Ongoing requests
+            </div>
+            <button className="flex items-center gap-1.5 text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors group-hover:gap-2 duration-300" style={{ fontWeight: 600 }}>
+              <span>View all</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* KPI Card 3: Inspections Scheduled */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl text-[#0D1B2A] mb-1" style={{ fontWeight: 600 }}>3</div>
-              <div className="text-sm text-gray-600">Inspections scheduled</div>
+        <div className="relative bg-gradient-to-br from-[#E3F2FD] to-[#BBDEFB]/30 rounded-2xl p-6 border border-blue-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 group overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                <Calendar className="w-6 h-6 text-[#1565C0]" />
+              </div>
             </div>
-            <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">+1</div>
-          </div>
-        </div>
-
-        {/* KPI Card 4: Deals Closed */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl text-[#0D1B2A] mb-1" style={{ fontWeight: 600 }}>2</div>
-              <div className="text-sm text-gray-600">Closed this month</div>
+            <div className="mb-1">
+              <span className="text-3xl text-[#0D1B2A]" style={{ fontWeight: 600 }}>3</span>
             </div>
-            <div className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded-full">-5%</div>
+            <div className="text-sm text-gray-700 mb-1">inspections scheduled</div>
+            <div className="text-xs text-gray-600 mb-4" style={{ fontWeight: 600, letterSpacing: '0.3px' }}>
+              Inspections scheduled
+            </div>
+            <button className="flex items-center gap-1.5 text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors group-hover:gap-2 duration-300" style={{ fontWeight: 600 }}>
+              <span>View all</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Middle Section: Performance and Activity - Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 animate-slideUp">
-        {/* Left Column: Lead Performance (Line Chart) */}
-        <div className="lg:col-span-1 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Lead Performance</h3>
-              <TrendingUp className="w-5 h-5 text-[#1565C0]" />
-            </div>
-            <div className="h-64 mb-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={leadPerformanceData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis
-                    dataKey="day"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: '#6b7280' }}
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: '#6b7280' }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="leads"
-                    stroke="#1565C0"
-                    fill="#E3F2FD"
-                    strokeWidth={2}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-gray-600">This week</div>
-                <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>39 leads</div>
+      {/* Main Content Grid - copied from client dashboard */}
+      <div className="grid grid-cols-[1fr_340px] gap-6">
+        {/* Left Column */}
+        <div>
+          {/* Lead Performance Chart */}
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-6">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Lead Performance</h3>
+                <TrendingUp className="w-5 h-5 text-[#1565C0]" />
               </div>
-              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View All</button>
+              <div className="h-64 mb-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={leadPerformanceData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis
+                      dataKey="day"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="leads"
+                      stroke="#1565C0"
+                      fill="#E3F2FD"
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-gray-600">This week</div>
+                  <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>39 leads</div>
+                </div>
+                <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View All</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Inspection Activity Chart */}
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-6">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Inspection Activity</h3>
+                <Eye className="w-5 h-5 text-[#1565C0]" />
+              </div>
+              <div className="h-64 mb-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={inspectionActivityData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis
+                      dataKey="day"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                    <Bar
+                      dataKey="inspections"
+                      fill="#1565C0"
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-gray-600">This week</div>
+                  <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>13 inspections</div>
+                </div>
+                <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View All</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Earnings Overview */}
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-lg text-gray-900 mb-1" style={{ fontWeight: 600 }}>Earnings Overview</h3>
+                  <div className="text-2xl text-[#0D1B2A]" style={{ fontWeight: 600 }}>₦124,000</div>
+                  <div className="text-sm text-green-600">+8.2% since last month</div>
+                </div>
+                <DollarSign className="w-8 h-8 text-[#1565C0]" />
+              </div>
+              <div className="h-48 mb-6">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={earningsData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis
+                      dataKey="week"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                      tickFormatter={(value) => `₦${(value / 1000).toFixed(0)}k`}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                      formatter={(value) => [`₦${value.toLocaleString()}`, 'Earnings']}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="earnings"
+                      stroke="#1565C0"
+                      fill="#E3F2FD"
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-600 mb-1">Total Sales</div>
+                  <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>₦98,500</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-600 mb-1">Total Expenses</div>
+                  <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>₦25,500</div>
+                </div>
+              </div>
+              <div className="text-center mt-4">
+                <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View Full Insights</button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Inspection Activity (Bar Chart) */}
-        <div className="lg:col-span-1 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Inspection Activity</h3>
-              <Eye className="w-5 h-5 text-[#1565C0]" />
-            </div>
-            <div className="h-64 mb-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={inspectionActivityData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis
-                    dataKey="day"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: '#6b7280' }}
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: '#6b7280' }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Bar
-                    dataKey="inspections"
-                    fill="#1565C0"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-gray-600">This week</div>
-                <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>13 inspections</div>
-              </div>
-              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View All</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Client and Inspection Summaries */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* Client Overview Card */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
+        {/* Right Column */}
+        <div>
+          {/* Client Overview */}
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-6">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Client Overview</h3>
                 <MessageSquare className="w-5 h-5 text-[#1565C0]" />
               </div>
               <div className="space-y-3 mb-4">
-                {recentClients.slice(0, 3).map((client) => (
+                {recentClients.slice(0, 4).map((client) => (
                   <div key={client.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center">
@@ -266,15 +351,15 @@ export function AgentDashboardPage() {
             </div>
           </div>
 
-          {/* Upcoming Inspections Card */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
+          {/* Upcoming Inspections */}
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Upcoming Inspections</h3>
                 <Calendar className="w-5 h-5 text-[#1565C0]" />
               </div>
               <div className="space-y-3 mb-4">
-                {upcomingInspections.slice(0, 3).map((inspection) => (
+                {upcomingInspections.slice(0, 4).map((inspection) => (
                   <div key={inspection.id} className="flex items-center justify-between">
                     <div>
                       <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>{inspection.property}</div>
@@ -297,69 +382,6 @@ export function AgentDashboardPage() {
           </div>
         </div>
       </div>
-
-      {/* Bottom Section: Earnings Overview */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 animate-fadeIn">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-lg text-gray-900 mb-1" style={{ fontWeight: 600 }}>Earnings Overview</h3>
-              <div className="text-2xl text-[#0D1B2A]" style={{ fontWeight: 600 }}>₦124,000</div>
-              <div className="text-sm text-green-600">+8.2% since last month</div>
-            </div>
-            <DollarSign className="w-8 h-8 text-[#1565C0]" />
-          </div>
-          <div className="h-48 mb-6">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={earningsData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis
-                  dataKey="week"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 12, fill: '#6b7280' }}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 12, fill: '#6b7280' }}
-                  tickFormatter={(value) => `₦${(value / 1000).toFixed(0)}k`}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
-                  formatter={(value) => [`₦${value.toLocaleString()}`, 'Earnings']}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="earnings"
-                  stroke="#1565C0"
-                  fill="#E3F2FD"
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-1">Total Sales</div>
-              <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>₦98,500</div>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-1">Total Expenses</div>
-              <div className="text-lg text-gray-900" style={{ fontWeight: 600 }}>₦25,500</div>
-            </div>
-          </div>
-          <div className="text-center mt-4">
-            <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View Full Insights</button>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 }
