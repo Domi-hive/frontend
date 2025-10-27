@@ -5,12 +5,15 @@ import { ProgressCards } from '../components/dashboard/ProgressCards';
 import { ContinueSearching } from '../components/dashboard/ContinueSearching';
 import { YourRequests } from '../components/dashboard/YourRequests';
 import { AgentsList } from '../components/dashboard/AgentsList';
+import { CreateRequestModal } from '../components/requests/CreateRequestModal';
+import { useState } from 'react';
 
 interface DashboardPageProps {
   onLogout: () => void;
 }
 
 export function DashboardPage({ onLogout }: DashboardPageProps) {
+  const [showCreateModal, setShowCreateModal] = useState(false);
   return (
     <div className="flex min-h-screen bg-[#F5FAFF]">
       {/* Sidebar */}
@@ -23,7 +26,7 @@ export function DashboardPage({ onLogout }: DashboardPageProps) {
           <DashboardHeader />
           
           {/* Hero Banner - Greeting & Quick Action */}
-          <DashboardHero />
+          <DashboardHero onCreateRequest={() => setShowCreateModal(true)} />
           
           {/* Progress Cards */}
           <ProgressCards />
@@ -47,6 +50,11 @@ export function DashboardPage({ onLogout }: DashboardPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Create Request Modal */}
+      {showCreateModal && (
+        <CreateRequestModal onClose={() => setShowCreateModal(false)} />
+      )}
     </div>
   );
 }

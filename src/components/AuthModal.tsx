@@ -67,9 +67,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
       });
       if (response.ok) {
         const responseData = await response.json();
-        localStorage.setItem('authToken', responseData.token);
-        localStorage.setItem('userRole', responseData.role || selectedRole);
-        navigate(selectedRole === 'agent' ? '/agent' : '/dashboard');
+        localStorage.setItem('authToken', responseData.accessToken || responseData.token);
+        localStorage.setItem('userRole', responseData.user?.role || responseData.role || selectedRole);
+        localStorage.setItem('userData', JSON.stringify(responseData.user || { fullName: responseData.fullName, role: selectedRole }));
+        navigate((responseData.user?.role || responseData.role || selectedRole) === 'agent' ? '/agent' : '/dashboard');
         onClose();
       } else {
         alert('Signup failed!');
@@ -94,9 +95,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('userRole', data.role);
-        navigate(data.role === 'agent' ? '/agent' : '/dashboard');
+        localStorage.setItem('authToken', data.accessToken);
+        localStorage.setItem('userRole', data.user.role);
+        localStorage.setItem('userData', JSON.stringify(data.user));
+        navigate(data.user.role === 'agent' ? '/agent' : '/dashboard');
         onClose();
       } else {
         alert('Login failed!');
