@@ -366,23 +366,22 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                     <FormItem>
                       <FormLabel>I am a:</FormLabel>
                       <FormControl>
-                        <RadioGroup
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            setSelectedRole(value as 'user' | 'agent');
-                          }}
-                          defaultValue={field.value}
-                          className="flex flex-row space-x-4"
-                        >
-                          <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 hover:scale-105 transition-all duration-200 rounded-lg px-2 py-1">
-                            <RadioGroupItem value="user" id="user" />
-                            <Label htmlFor="user" className="cursor-pointer">Client</Label>
-                          </div>
-                          <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 hover:scale-105 transition-all duration-200 rounded-lg px-2 py-1">
-                            <RadioGroupItem value="agent" id="agent" />
-                            <Label htmlFor="agent" className="cursor-pointer">Agent</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="flex flex-col space-y-2">
+                          <Tabs value={selectedRole} onValueChange={(value) => {
+                            const role = value as 'user' | 'agent';
+                            field.onChange(role);
+                            setSelectedRole(role);
+                          }}>
+                            <TabsList className="grid w-32 grid-cols-2 bg-[#E3F2FD] h-8 p-1">
+                              <TabsTrigger value="user" className="tab-transition cursor-pointer text-xs px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: selectedRole === 'user' ? '#F5FAFF' : 'transparent' }}>
+                                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Client</span>
+                              </TabsTrigger>
+                              <TabsTrigger value="agent" className="tab-transition cursor-pointer text-xs px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: selectedRole === 'agent' ? '#F5FAFF' : 'transparent' }}>
+                                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Agent</span>
+                              </TabsTrigger>
+                            </TabsList>
+                          </Tabs>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
