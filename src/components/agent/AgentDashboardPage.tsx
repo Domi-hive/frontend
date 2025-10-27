@@ -151,110 +151,152 @@ export function AgentDashboardPage() {
       {/* Activity Cards - Right below progress cards */}
       <div className="grid grid-cols-3 gap-6 mb-8">
         {/* Upcoming Inspections */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div className="bg-gradient-to-br from-[#E3F2FD] to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-lg hover:bg-[#e6f0fa] transition-all duration-300">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Upcoming Inspections</h3>
-              <Calendar className="w-5 h-5 text-[#1565C0]" />
+              <div className="flex items-center space-x-3">
+                <div>
+                  <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Upcoming Inspections</h3>
+                  <div className="text-sm text-[#1565C0]" style={{ fontWeight: 600 }}>3 Scheduled Inspections</div>
+                </div>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-[#1565C0]" />
+              </div>
             </div>
             <div className="space-y-3 mb-4">
               {upcomingInspections.slice(0, 3).map((inspection) => (
-                <div key={inspection.id} className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>{inspection.property}</div>
-                    <div className="text-xs text-gray-600">{inspection.date}</div>
+                <div key={inspection.id} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center">
+                      <span className="text-xs text-[#1565C0]" style={{ fontWeight: 600 }}>
+                        {inspection.property.split(' ')[0][0]}{inspection.property.split(' ')[1]?.[0] || ''}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>{inspection.property}</div>
+                      <div className="text-xs text-gray-600">{inspection.date}</div>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-end space-y-1">
+                  <div className="flex flex-col items-end space-y-2">
                     <div className={`text-xs px-2 py-1 rounded-full ${
                       inspection.status === 'Urgent' ? 'bg-red-100 text-red-700' :
-                      inspection.status === 'Scheduled' ? 'bg-blue-100 text-blue-700' :
+                      inspection.status === 'Scheduled' ? 'bg-green-100 text-green-700' :
                       'bg-yellow-100 text-yellow-700'
                     }`} style={{ fontWeight: 500 }}>
                       {inspection.status}
                     </div>
-                    <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors underline" style={{ fontWeight: 500 }}>View Directions</button>
+                    <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors hover:bg-blue-50 px-2 py-1 rounded" style={{ fontWeight: 500 }}>View Directions</button>
                   </div>
                 </div>
               ))}
             </div>
             <div className="text-right">
-              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>See All</button>
+              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors hover:bg-blue-50 px-3 py-1 rounded" style={{ fontWeight: 600 }}>See All</button>
             </div>
           </div>
         </div>
 
         {/* New Property Requests */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div className="bg-gradient-to-br from-[#E3F2FD] to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-lg hover:bg-[#e6f0fa] transition-all duration-300">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>New Property Requests</h3>
-              <Search className="w-5 h-5 text-[#1565C0]" />
+              <div>
+                <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>New Property Requests</h3>
+                <div className="text-sm text-[#1565C0]" style={{ fontWeight: 600 }}>3 New Requests</div>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                <Search className="w-5 h-5 text-[#1565C0]" />
+              </div>
             </div>
             <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>3BR Apartment in Wuse II</div>
-                  <div className="text-xs text-gray-600">Muhammad K. - Today 2:30 PM</div>
+              <div className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center">
+                    <span className="text-xs text-[#1565C0]" style={{ fontWeight: 600 }}>MK</span>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>3BR Apartment in Wuse II</div>
+                    <div className="text-xs text-gray-600">Muhammad K. - Today 2:30 PM</div>
+                  </div>
                 </div>
-                <div className="text-xs px-2 py-1 rounded-full bg-orange-100 text-orange-700" style={{ fontWeight: 500 }}>
+                <div className="text-xs px-2 py-1 rounded-full bg-red-100 text-red-700" style={{ fontWeight: 500 }}>
                   Urgent
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>Luxury Penthouse in Maitama</div>
-                  <div className="text-xs text-gray-600">Sarah Johnson - Tomorrow</div>
+              <div className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center">
+                    <span className="text-xs text-[#1565C0]" style={{ fontWeight: 600 }}>SJ</span>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>Luxury Penthouse in Maitama</div>
+                    <div className="text-xs text-gray-600">Sarah Johnson - Tomorrow</div>
+                  </div>
                 </div>
-                <div className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700" style={{ fontWeight: 500 }}>
+                <div className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700" style={{ fontWeight: 500 }}>
                   New
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>Office Space in CBD</div>
-                  <div className="text-xs text-gray-600">David Chen - Oct 23, 10:00 AM</div>
+              <div className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center">
+                    <span className="text-xs text-[#1565C0]" style={{ fontWeight: 600 }}>DC</span>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>Office Space in CBD</div>
+                    <div className="text-xs text-gray-600">David Chen - Oct 23, 10:00 AM</div>
+                  </div>
                 </div>
-                <div className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700" style={{ fontWeight: 500 }}>
+                <div className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700" style={{ fontWeight: 500 }}>
                   Matched
                 </div>
               </div>
             </div>
             <div className="text-right">
-              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View All Requests</button>
+              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors hover:bg-blue-50 px-3 py-1 rounded" style={{ fontWeight: 600 }}>View All Requests</button>
             </div>
           </div>
         </div>
 
         {/* Recent Messages */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div className="bg-gradient-to-br from-[#E3F2FD] to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-lg hover:bg-[#e6f0fa] transition-all duration-300">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Recent Messages</h3>
-              <MessageSquare className="w-5 h-5 text-[#1565C0]" />
+              <div>
+                <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Recent Messages</h3>
+                <div className="text-sm text-[#1565C0]" style={{ fontWeight: 600 }}>4 Recent Messages</div>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                <MessageSquare className="w-5 h-5 text-[#1565C0]" />
+              </div>
             </div>
             <div className="space-y-3 mb-4">
               {newMessages.map((message) => (
-                <div key={message.id} className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-[#1565C0]" style={{ fontWeight: 600 }}>
-                      {message.from.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
+                <div key={message.id} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-[#E3F2FD] rounded-full flex items-center justify-center">
+                      <span className="text-xs text-[#1565C0]" style={{ fontWeight: 600 }}>
+                        {message.from.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
                       <div className="text-sm text-gray-900" style={{ fontWeight: 500 }}>{message.from}</div>
+                      <div className="text-xs text-gray-600 truncate">{message.message}</div>
                       <div className="text-xs text-gray-500">{message.time}</div>
                     </div>
-                    <div className="text-xs text-gray-600 truncate">{message.message}</div>
                   </div>
-                  {message.unread && (
-                    <div className="w-2 h-2 bg-[#1565C0] rounded-full flex-shrink-0 mt-2"></div>
-                  )}
+                  <div className="flex items-center space-x-2">
+                    {message.unread && (
+                      <div className="w-2 h-2 bg-[#1565C0] rounded-full"></div>
+                    )}
+                    <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors hover:bg-blue-50 px-2 py-1 rounded" style={{ fontWeight: 500 }}>Respond</button>
+                  </div>
                 </div>
               ))}
             </div>
             <div className="text-right">
-              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>View All Messages</button>
+              <button className="text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors hover:bg-blue-50 px-3 py-1 rounded" style={{ fontWeight: 600 }}>View All Messages</button>
             </div>
           </div>
         </div>

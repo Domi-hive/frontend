@@ -1,4 +1,4 @@
-import { Home, MessageSquare, FileText, ClipboardCheck, TrendingUp, DollarSign, Settings, LogOut, Users } from 'lucide-react';
+import { Home, MessageSquare, FileText, ClipboardCheck, TrendingUp, Settings, LogOut, Building } from 'lucide-react';
 import { useState } from 'react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
@@ -10,11 +10,10 @@ export function AgentSidebar({ onLogout }: AgentSidebarProps) {
   const currentPath = window.location.pathname;
   const [activeItem, setActiveItem] = useState(
     currentPath === '/agent/messages' ? 'Messages' :
-    currentPath === '/agent/leads' ? 'Leads' :
+    currentPath === '/agent/properties' ? 'My Properties' :
     currentPath === '/agent/requests' ? 'Client Requests' :
     currentPath === '/agent/inspections' ? 'Inspections' :
     currentPath === '/agent/analytics' ? 'Analytics' :
-    currentPath === '/agent/earnings' ? 'Earnings' :
     'Dashboard'
   );
 
@@ -26,12 +25,11 @@ export function AgentSidebar({ onLogout }: AgentSidebarProps) {
 
   const menuItems = [
     { icon: Home, label: 'Dashboard', path: '/agent' },
-    { icon: Users, label: 'Leads', path: '/agent/leads' },
+    { icon: MessageSquare, label: 'Messages', path: '/agent/messages' },
+    { icon: Building, label: 'My Properties', path: '/agent/properties' },
     { icon: FileText, label: 'Client Requests', path: '/agent/requests' },
     { icon: ClipboardCheck, label: 'Inspections', path: '/agent/inspections' },
     { icon: TrendingUp, label: 'Analytics', path: '/agent/analytics' },
-    { icon: DollarSign, label: 'Earnings', path: '/agent/earnings' },
-    { icon: MessageSquare, label: 'Messages', path: '/agent/messages' },
   ];
 
   const connections = [
