@@ -154,12 +154,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
         {/* Content */}
         <div className="px-6 pb-6">
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'login' | 'signup')}>
-            <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#E3F2FD]">
-              <TabsTrigger value="login" className="tab-transition cursor-pointer" style={{ backgroundColor: activeTab === 'login' ? '#F5FAFF' : '#E3F2FD' }}>
-                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200 rounded px-1">Login</span>
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#E3F2FD] p-1 shadow-sm">
+              <TabsTrigger value="login" className="tab-transition cursor-pointer px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: activeTab === 'login' ? '#F5FAFF' : 'transparent' }}>
+                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Login</span>
               </TabsTrigger>
-              <TabsTrigger value="signup" className="tab-transition cursor-pointer" style={{ backgroundColor: activeTab === 'signup' ? '#F5FAFF' : '#E3F2FD' }}>
-                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200 rounded px-1">Sign Up</span>
+              <TabsTrigger value="signup" className="tab-transition cursor-pointer px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: activeTab === 'signup' ? '#F5FAFF' : 'transparent' }}>
+                <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Sign Up</span>
               </TabsTrigger>
             </TabsList>
           <TabsContent value="login" className={`transition-all duration-300 ${activeTab === 'login' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
@@ -364,7 +364,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                   name="role"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>I am a:</FormLabel>
+                      <FormLabel>Register as:</FormLabel>
                       <FormControl>
                         <div className="flex flex-col space-y-2">
                           <Tabs value={selectedRole} onValueChange={(value) => {
@@ -372,7 +372,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                             field.onChange(role);
                             setSelectedRole(role);
                           }}>
-                            <TabsList className="grid w-32 grid-cols-2 bg-[#E3F2FD] h-8 p-1">
+                            <TabsList className="grid w-32 grid-cols-2 bg-[#E3F2FD] h-8 p-1 shadow-sm">
                               <TabsTrigger value="user" className="tab-transition cursor-pointer text-xs px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: selectedRole === 'user' ? '#F5FAFF' : 'transparent' }}>
                                 <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Client</span>
                               </TabsTrigger>
