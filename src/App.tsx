@@ -11,6 +11,7 @@ import { AgentRequests } from './pages/AgentRequests';
 import { AgentInspections } from './pages/AgentInspections';
 import { AgentAnalytics } from './pages/AgentAnalytics';
 import { AgentMessages } from './pages/AgentMessages';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import { MobileNav } from './components/MobileNav';
 import AuthModal from './components/AuthModal';
 import { Home } from 'lucide-react';
@@ -132,7 +133,9 @@ export default function App() {
       </nav>
 
       {/* Route-based page rendering */}
-      {currentPath === '/agents' ? <AgentsPage /> : <HomePage />}
+      {currentPath === '/agents' ? <AgentsPage /> :
+       currentPath.startsWith('/reset-password') ? <ResetPasswordPage /> :
+       <HomePage />}
 
       {/* Auth Modal */}
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} navigate={navigate} />
