@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, CheckCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -8,6 +8,8 @@ import { Checkbox } from '../ui/checkbox';
 import { Textarea } from '../ui/textarea';
 import { Slider } from '../ui/slider';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { toast } from 'sonner';
+import { apiService, CreateRequestData } from '../../services/api';
 
 interface CreateRequestModalProps {
   onClose: () => void;
@@ -36,6 +38,8 @@ const steps = [
 
 export function CreateRequestModal({ onClose }: CreateRequestModalProps) {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const form = useForm<FormData>({
     defaultValues: {
       location: '',
@@ -77,10 +81,49 @@ export function CreateRequestModal({ onClose }: CreateRequestModalProps) {
     }
   };
 
-  const onSubmit = (data: FormData) => {
-    console.log('Form submitted:', data);
-    // Handle form submission here
-    onClose();
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    try {
+      // Transform form data to match API expectations
+      const requestData: CreateRequestData = {
+        location: data.location,
+        propertyType: data.propertyType,
+        priceRange: data.priceRange,
+        bedrooms: data.bedrooms,
+        tenure: data.tenure,
+        furnishing: data.furnishing,
+        propertyStructure: data.propertyStructure,
+        locationType: data.locationType,
+        moveInDate: data.moveInDate,
+        additionalInfo: data.additionalInfo,
+      };
+
+      // Call the API to create the request
+      const response = await apiService.createRequest(requestData);
+
+      console.log('Request submitted successfully:', response);
+
+      // Show success state
+      setIsSubmitted(true);
+
+      // Show success toast
+      toast.success('Request Submitted Successfully!', {
+        description: 'Your property request has been received. You\'ll receive responses from verified agents within 24 hours.',
+      });
+
+      // Auto-close after showing success message
+      setTimeout(() => {
+        onClose();
+      }, 3000);
+
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      toast.error('Failed to submit request', {
+        description: 'Please try again or contact support if the problem persists.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -331,6 +374,42 @@ export function CreateRequestModal({ onClose }: CreateRequestModalProps) {
     }
   };
 
+  // Show success state after submission
+  if (isSubmitted) {
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] shadow-2xl animate-fadeIn">
+          <div className="p-8 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Request Submitted Successfully!</h2>
+            <p className="text-gray-600 mb-6">
+              Your property request has been received and is being processed. You'll receive responses from verified agents within 24 hours.
+            </p>
+            <div className="bg-blue-50 p-4 rounded-lg mb-6">
+              <h3 className="text-lg font-medium text-blue-900 mb-2">What happens next?</h3>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Verified agents will review your request</li>
+                <li>• You'll receive personalized property recommendations</li>
+                <li>• Agents will contact you directly to schedule viewings</li>
+              </ul>
+            </div>
+            <p className="text-sm text-gray-500 mb-6">
+              In the meantime, feel free to explore our property recommendations below.
+            </p>
+            <Button
+              onClick={onClose}
+              className="bg-[#90CAF9] hover:bg-[#42A5F5] text-white px-8"
+            >
+              Explore Properties
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] shadow-2xl animate-fadeIn">
@@ -340,6 +419,7 @@ export function CreateRequestModal({ onClose }: CreateRequestModalProps) {
           <button
             onClick={onClose}
             className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors"
+            disabled={isSubmitting}
           >
             <X className="w-5 h-5 text-gray-600" />
           </button>
@@ -418,9 +498,17 @@ export function CreateRequestModal({ onClose }: CreateRequestModalProps) {
               ) : (
                 <Button
                   type="submit"
-                  className="px-6 bg-[#90CAF9] hover:bg-[#42A5F5] text-white"
+                  disabled={isSubmitting}
+                  className="px-6 bg-[#90CAF9] hover:bg-[#42A5F5] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit Request
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Request'
+                  )}
                 </Button>
               )}
             </div>

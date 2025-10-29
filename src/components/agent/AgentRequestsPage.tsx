@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Building2, Home, TrendingUp, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
@@ -8,6 +8,7 @@ import { RequestDetailsPanel } from './RequestDetailsPanel';
 import { Card } from './ui/card';
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { apiService, ApiRequest } from '../../services/api';
 
 interface PropertyMatch {
   id: string;
@@ -41,166 +42,47 @@ export function AgentRequestsPage() {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState('all');
   const [selectedRequest, setSelectedRequest] = useState<ClientRequest | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [requests, setRequests] = useState<ClientRequest[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [requests, setRequests] = useState<ClientRequest[]>([
-    {
-      id: '1',
-      clientName: 'Muhammad K.',
-      clientAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
-      email: 'muhammad.k@email.com',
-      phone: '+234 801 234 5678',
-      propertyType: '3-Bedroom Apartment',
-      location: 'Wuse II, Abuja',
-      budgetRange: '₦2.5M - ₦3M',
-      preferredDates: ['Oct 23', 'Oct 24', 'Oct 25'],
-      additionalNotes: 'Looking for properties near schools and shopping centers. Needs parking space for 2 cars.',
-      status: 'pending',
-      statusLabel: 'Pending',
-      dateCreated: 'Oct 20, 2025',
-      matchingProperties: [
-        {
-          id: 'p1',
-          image: 'https://images.unsplash.com/photo-1515263487990-61b07816b324?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcGFydG1lbnQlMjBidWlsZGluZ3xlbnwxfHx8fDE3NjA5OTU2NTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          name: 'Modern 3-Bedroom Apartment',
-          location: 'Wuse II, Abuja',
-          price: '₦2.8M/year',
-          type: '3-Bedroom',
-        },
-        {
-          id: 'p2',
-          image: 'https://images.unsplash.com/photo-1635108199460-3b4e3ebc6d44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9wZXJ0eSUyMGV4dGVyaW9yfGVufDF8fHx8MTc2MTA0NDM2Mnww&ixlib=rb-4.1.0&q=80&w=1080',
-          name: 'Spacious 3-Bedroom with Parking',
-          location: 'Wuse District, Abuja',
-          price: '₦2.7M/year',
-          type: '3-Bedroom',
-        },
-      ],
-    },
-    {
-      id: '2',
-      clientName: 'Aisha Bello',
-      clientAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-      email: 'aisha.b@email.com',
-      phone: '+234 802 345 6789',
-      propertyType: 'Luxury Penthouse',
-      location: 'Maitama, Abuja',
-      budgetRange: '₦6M - ₦8M',
-      preferredDates: ['Oct 22', 'Oct 23'],
-      additionalNotes: 'VIP client. Looking for penthouse with city views and modern amenities.',
-      status: 'responded',
-      statusLabel: 'Responded',
-      dateCreated: 'Oct 18, 2025',
-      matchingProperties: [
-        {
-          id: 'p3',
-          image: 'https://images.unsplash.com/photo-1568115286680-d203e08a8be6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZW50aG91c2UlMjBjaXR5JTIwdmlld3xlbnwxfHx8fDE3NjA5NjE1MDN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          name: 'Luxury Penthouse Suite',
-          location: 'Maitama District, Abuja',
-          price: '₦7.5M/year',
-          type: 'Penthouse',
-        },
-      ],
-    },
-    {
-      id: '3',
-      clientName: 'David Chen',
-      clientAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-      email: 'david.chen@email.com',
-      phone: '+234 803 456 7890',
-      propertyType: '4-Bedroom Duplex',
-      location: 'Asokoro, Abuja',
-      budgetRange: '₦5M - ₦7M',
-      preferredDates: ['Oct 26', 'Oct 27'],
-      additionalNotes: 'Relocating from Lagos. Looking for family-friendly neighborhood.',
-      status: 'pending',
-      statusLabel: 'Pending',
-      dateCreated: 'Oct 19, 2025',
-      matchingProperties: [
-        {
-          id: 'p4',
-          image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXBsZXglMjBob3VzZXxlbnwxfHx8fDE3NjEwNDQzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          name: 'Elegant 4-Bedroom Duplex',
-          location: 'Asokoro, Abuja',
-          price: '₦6.2M/year',
-          type: '4-Bedroom',
-        },
-        {
-          id: 'p5',
-          image: 'https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3VzZSUyMGV4dGVyaW9yfGVufDF8fHx8MTc2MDk2OTUyOXww&ixlib=rb-4.1.0&q=80&w=1080',
-          name: 'Luxury 4-Bedroom Family Home',
-          location: 'Asokoro District, Abuja',
-          price: '₦6.8M/year',
-          type: '4-Bedroom',
-        },
-      ],
-    },
-    {
-      id: '4',
-      clientName: 'Emma Davis',
-      clientAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
-      email: 'emma.davis@email.com',
-      phone: '+234 804 567 8901',
-      propertyType: '2-Bedroom Flat',
-      location: 'Garki, Abuja',
-      budgetRange: '₦1.5M - ₦2M',
-      preferredDates: ['Oct 25'],
-      additionalNotes: 'First-time renter. Looking for affordable and secure property.',
-      status: 'completed',
-      statusLabel: 'Completed',
-      dateCreated: 'Oct 15, 2025',
-      matchingProperties: [],
-    },
-    {
-      id: '5',
-      clientName: 'Chidi Okafor',
-      clientAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
-      email: 'chidi.o@email.com',
-      phone: '+234 805 678 9012',
-      propertyType: 'Studio Apartment',
-      location: 'Jabi, Abuja',
-      budgetRange: '₦800K - ₦1.2M',
-      preferredDates: ['Oct 24', 'Oct 25'],
-      additionalNotes: 'Single professional. Needs something compact and modern.',
-      status: 'responded',
-      statusLabel: 'Responded',
-      dateCreated: 'Oct 17, 2025',
-      matchingProperties: [
-        {
-          id: 'p6',
-          image: 'https://images.unsplash.com/photo-1702014861449-202805baa272?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkaW8lMjBhcGFydG1lbnQlMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjA5NTIyMzd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          name: 'Modern Studio Apartment',
-          location: 'Jabi, Abuja',
-          price: '₦950K/year',
-          type: 'Studio',
-        },
-      ],
-    },
-    {
-      id: '6',
-      clientName: 'Fatima Ahmed',
-      clientAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
-      email: 'fatima.a@email.com',
-      phone: '+234 806 789 0123',
-      propertyType: '3-Bedroom Duplex',
-      location: 'Gwarinpa, Abuja',
-      budgetRange: '₦3M - ₦4M',
-      preferredDates: ['Oct 28', 'Oct 29'],
-      additionalNotes: 'Looking for quiet neighborhood with good security.',
-      status: 'pending',
-      statusLabel: 'Pending',
-      dateCreated: 'Oct 21, 2025',
-      matchingProperties: [
-        {
-          id: 'p7',
-          image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdXBsZXglMjBob3VzZXxlbnwxfHx8fDE3NjEwNDQzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          name: '3-Bedroom Duplex in Gwarinpa',
-          location: 'Gwarinpa, Abuja',
-          price: '₦3.5M/year',
-          type: '3-Bedroom',
-        },
-      ],
-    },
-  ]);
+  // Fetch requests from API on component mount
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const apiRequests = await apiService.getRequests();
+
+        // Map API response to component interface
+        const mappedRequests: ClientRequest[] = apiRequests.map((apiReq, index) => ({
+          id: (index + 1).toString(),
+          clientName: 'Client', // API doesn't provide client name, using placeholder
+          clientAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+          email: 'client@email.com', // API doesn't provide email
+          phone: '+234 000 000 0000', // API doesn't provide phone
+          propertyType: `${apiReq.bedrooms}-Bedroom ${apiReq.propertyType}`,
+          location: apiReq.location,
+          budgetRange: apiReq.budgetRange,
+          preferredDates: [apiReq.preferredInspectionDate], // API provides single date
+          additionalNotes: '', // API doesn't provide notes
+          status: 'pending' as const,
+          statusLabel: 'Pending',
+          dateCreated: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          matchingProperties: [], // API doesn't provide matching properties
+        }));
+
+        setRequests(mappedRequests);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch requests');
+        console.error('Error fetching requests:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   // Weekly response data
   const weeklyResponseData = [
@@ -234,7 +116,7 @@ export function AgentRequestsPage() {
   };
 
   const filteredRequests = requests.filter((request) => {
-    const matchesSearch = 
+    const matchesSearch =
       request.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.location.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || request.status === statusFilter;
@@ -251,7 +133,7 @@ export function AgentRequestsPage() {
     toast.success('Response Sent', {
       description: 'Your message has been sent to the client.',
     });
-    setRequests(prev => prev.map(req => 
+    setRequests(prev => prev.map(req =>
       req.id === id ? { ...req, status: 'responded' as const, statusLabel: 'Responded' } : req
     ));
   };
@@ -260,7 +142,7 @@ export function AgentRequestsPage() {
     toast.success('Request Marked as Responded', {
       description: 'Status updated successfully.',
     });
-    setRequests(prev => prev.map(req => 
+    setRequests(prev => prev.map(req =>
       req.id === id ? { ...req, status: 'responded' as const, statusLabel: 'Responded' } : req
     ));
     setIsPanelOpen(false);
@@ -274,9 +156,43 @@ export function AgentRequestsPage() {
 
   const activeRequests = requests.filter(r => r.status !== 'completed').length;
   const respondedThisWeek = weeklyResponseData.reduce((sum, day) => sum + day.responded, 0);
-  const completionRate = requests.length > 0 
+  const completionRate = requests.length > 0
     ? ((requests.filter(r => r.status === 'completed').length / requests.length) * 100).toFixed(0)
     : 0;
+
+
+  if (loading) {
+    return (
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading requests...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Failed to Load Requests</h2>
+            <p className="text-gray-600 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
