@@ -33,6 +33,23 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
   const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
   const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false);
 
+  // Reset all modal state when opening/closing
+  React.useEffect(() => {
+    if (isOpen) {
+      setActiveTab('login');
+      setSelectedRole('user');
+      setForgotPasswordMode(false);
+      setForgotPasswordSuccess(false);
+      loginForm.reset();
+      signupForm.reset();
+      forgotPasswordForm.reset();
+    }
+  }, [isOpen]);
+
+  const handleForgotPasswordClick = () => {
+    setForgotPasswordMode(true);
+  };
+
   const signupForm = useForm<SignupFormData>();
   const loginForm = useForm<LoginFormData>();
   const forgotPasswordForm = useForm<{ email: string }>();
@@ -212,46 +229,48 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                 </Form>
               )
             ) : (
-              <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
-                  <FormField
-                    control={loginForm.control}
-                    name="email"
-                    rules={{ required: 'Email is required' }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="user@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={loginForm.control}
-                    name="password"
-                    rules={{ required: 'Password is required' }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="yourPassword123" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" style={{ fontWeight: 600 }}>Login</Button>
-                  <button
-                    type="button"
-                    onClick={() => setForgotPasswordMode(true)}
-                    className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
-                  >
-                    Forgot Password?
-                  </button>
-                </form>
-              </Form>
+              <div className="space-y-4">
+                <Form {...loginForm}>
+                  <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
+                    <FormField
+                      control={loginForm.control}
+                      name="email"
+                      rules={{ required: 'Email is required' }}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="user@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={loginForm.control}
+                      name="password"
+                      rules={{ required: 'Password is required' }}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="yourPassword123" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" className="w-full flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer" style={{ fontWeight: 600 }}>Login</Button>
+                  </form>
+                </Form>
+                <button
+                  type="button"
+                  onClick={handleForgotPasswordClick}
+                  className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+                >
+                  Forgot Password?
+                </button>
+              </div>
             )}
           </TabsContent>
           <TabsContent value="signup" className={`transition-all duration-300 ${activeTab === 'signup' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>

@@ -329,215 +329,166 @@ export function AgentInspectionsPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-8">
-        <TabsList className="mb-6" style={{ backgroundColor: '#E3F2FD' }}>
-          <TabsTrigger 
-            value="upcoming" 
-            className="data-[state=active]:bg-white"
-            style={{ 
-              borderRadius: '8px',
-            }}
-          >
-            Upcoming Inspections
+        <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#E3F2FD] p-1 shadow-sm">
+          <TabsTrigger value="upcoming" className="tab-transition cursor-pointer px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: activeTab === 'upcoming' ? '#F5FAFF' : 'transparent' }}>
+            <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Upcoming Inspections</span>
           </TabsTrigger>
-          <TabsTrigger 
-            value="history"
-            className="data-[state=active]:bg-white"
-            style={{ 
-              borderRadius: '8px',
-            }}
-          >
-            Inspection History
+          <TabsTrigger value="history" className="tab-transition cursor-pointer px-1 py-0.5 mx-0.5 my-0.5 rounded-md" style={{ backgroundColor: activeTab === 'history' ? '#F5FAFF' : 'transparent' }}>
+            <span className="hover:bg-inherit hover:scale-105 transition-all duration-200">Inspection History</span>
           </TabsTrigger>
         </TabsList>
 
         {/* Upcoming Inspections Tab */}
-        <TabsContent value="upcoming" className="space-y-4 animate-in fade-in-50 duration-300">
+        <TabsContent value="upcoming" className="animate-in fade-in-50 duration-300">
           {filteredInspections.length === 0 ? (
             <Card className="p-12 text-center">
               <p className="text-gray-500">No upcoming inspections found.</p>
             </Card>
           ) : (
-            filteredInspections.map((inspection) => {
-              const isExpanded = expandedCard === inspection.id;
-              return (
+            <div className="grid grid-cols-3 gap-6">
+              {filteredInspections.map((inspection) => (
                 <Card
                   key={inspection.id}
-                  className="overflow-hidden border border-gray-100 hover:shadow-lg transition-all"
+                  className="overflow-hidden border border-gray-100 hover:shadow-lg transition-all cursor-pointer"
+                  onClick={() => toggleExpand(inspection.id)}
                 >
-                  {/* Collapsed View */}
-                  <div
-                    className="p-6 cursor-pointer"
-                    onClick={() => toggleExpand(inspection.id)}
-                  >
-                    <div className="flex items-start gap-4">
-                      {/* Property Image */}
-                      <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
-                        <ImageWithFallback
-                          src={inspection.propertyImage}
-                          alt={inspection.propertyName}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-
-                      {/* Main Info */}
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <h4 className="mb-1">{inspection.propertyName}</h4>
-                            <p className="text-sm text-gray-600">{inspection.location}</p>
-                          </div>
-                          <Badge className={`${getStatusColor(inspection.status)} text-xs px-3 py-1`}>
-                            {inspection.statusLabel}
-                          </Badge>
-                        </div>
-
-                        <div className="flex items-center gap-6 text-sm text-gray-600">
-                          <div className="flex items-center gap-2">
-                            <Avatar className="w-6 h-6">
-                              <AvatarImage src={inspection.clientAvatar} alt={inspection.clientName} />
-                              <AvatarFallback>{inspection.clientName[0]}</AvatarFallback>
-                            </Avatar>
-                            <span>{inspection.clientName}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <CalendarIcon className="w-4 h-4" />
-                            <span>{inspection.date} at {inspection.time}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Expand Button */}
-                      <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                        {isExpanded ? (
-                          <ChevronUp className="w-5 h-5 text-gray-600" />
-                        ) : (
-                          <ChevronDown className="w-5 h-5 text-gray-600" />
-                        )}
-                      </button>
+                  {/* Property Image */}
+                  <div className="relative">
+                    <div className="w-full h-48 overflow-hidden">
+                      <ImageWithFallback
+                        src={inspection.propertyImage}
+                        alt={inspection.propertyName}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="absolute top-3 right-3">
+                      <Badge className={`${getStatusColor(inspection.status)} text-xs px-2 py-1`}>
+                        {inspection.statusLabel}
+                      </Badge>
                     </div>
                   </div>
 
-                  {/* Expanded View */}
-                  {isExpanded && (
-                    <div 
-                      className="border-t border-gray-100 p-6 animate-in fade-in-50 duration-300"
-                      style={{ backgroundColor: '#F9FAFB' }}
-                    >
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {/* Property Details */}
-                        <div>
-                          <h4 className="mb-3" style={{ color: '#1565C0' }}>Property Details</h4>
-                          <div className="space-y-2">
-                            <div className="flex items-start gap-2 text-sm">
-                              <span className="text-gray-500 min-w-24">Type:</span>
-                              <span>{inspection.propertyType}</span>
-                            </div>
-                            <div className="flex items-start gap-2 text-sm">
-                              <span className="text-gray-500 min-w-24">Address:</span>
-                              <span>{inspection.address}</span>
-                            </div>
-                            {inspection.notes && (
-                              <div className="flex items-start gap-2 text-sm mt-3">
-                                <span className="text-gray-500 min-w-24">Notes:</span>
-                                <span className="text-gray-600 italic">{inspection.notes}</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
+                  {/* Card Content */}
+                  <div className="p-4">
+                    <h4 className="font-semibold text-gray-900 mb-1 line-clamp-2">{inspection.propertyName}</h4>
+                    <p className="text-sm text-gray-600 mb-3 flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      {inspection.location}
+                    </p>
 
-                        {/* Client Details */}
-                        <div>
-                          <h4 className="mb-3" style={{ color: '#1565C0' }}>Client Details</h4>
-                          <div className="flex items-center gap-3 mb-4">
-                            <Avatar className="w-12 h-12">
-                              <AvatarImage src={inspection.clientAvatar} alt={inspection.clientName} />
-                              <AvatarFallback>{inspection.clientName[0]}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <div className="text-sm">{inspection.clientName}</div>
-                              <div className="text-sm text-gray-500">{inspection.clientPhone}</div>
-                            </div>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleCallClient(inspection.clientPhone, inspection.clientName);
-                              }}
-                            >
-                              <Phone className="w-4 h-4 mr-1" />
-                              Call
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleMessageClient(inspection.clientName);
-                              }}
-                            >
-                              <MessageSquare className="w-4 h-4 mr-1" />
-                              Message
-                            </Button>
-                          </div>
-                        </div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={inspection.clientAvatar} alt={inspection.clientName} />
+                        <AvatarFallback className="text-xs">{inspection.clientName[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-900 truncate">{inspection.clientName}</div>
+                        <div className="text-xs text-gray-500 truncate">{inspection.clientPhone}</div>
                       </div>
+                    </div>
 
-                      {/* Inspection Controls */}
-                      <div className="mt-6 pt-6 border-t border-gray-200">
-                        <h4 className="mb-3">Inspection Controls</h4>
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="flex items-center gap-1 text-sm text-gray-600 mb-4">
+                      <CalendarIcon className="w-4 h-4" />
+                      <span>{inspection.date} at {inspection.time}</span>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        className="flex-1 text-white"
+                        style={{ backgroundColor: '#90CAF9' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleMarkCompleted(inspection.id);
+                        }}
+                      >
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Complete
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCallClient(inspection.clientPhone, inspection.clientName);
+                        }}
+                      >
+                        <Phone className="w-3 h-3" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleMessageClient(inspection.clientName);
+                        }}
+                      >
+                        <MessageSquare className="w-3 h-3" />
+                      </Button>
+                    </div>
+
+                    {/* Expandable Details */}
+                    {expandedCard === inspection.id && (
+                      <div className="mt-4 pt-4 border-t border-gray-100 animate-in fade-in-50 duration-300">
+                        <div className="space-y-3">
+                          <div>
+                            <h5 className="text-sm font-medium text-gray-900 mb-2">Property Details</h5>
+                            <div className="text-xs text-gray-600 space-y-1">
+                              <div><span className="font-medium">Type:</span> {inspection.propertyType}</div>
+                              <div><span className="font-medium">Address:</span> {inspection.address}</div>
+                              {inspection.notes && (
+                                <div><span className="font-medium">Notes:</span> <span className="italic">{inspection.notes}</span></div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 pt-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleReschedule(inspection.id);
+                              }}
+                            >
+                              <CalendarIcon className="w-3 h-3 mr-1" />
+                              Reschedule
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleGetDirections(inspection.address, inspection.propertyName);
+                              }}
+                            >
+                              <MapPin className="w-3 h-3 mr-1" />
+                              Directions
+                            </Button>
+                          </div>
+
                           <Button
-                            className="text-white"
-                            style={{ backgroundColor: '#90CAF9' }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleMarkCompleted(inspection.id);
-                            }}
-                          >
-                            <CheckCircle className="w-4 h-4 mr-2" />
-                            Mark Completed
-                          </Button>
-                          <Button
+                            size="sm"
                             variant="outline"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleReschedule(inspection.id);
-                            }}
-                          >
-                            <CalendarIcon className="w-4 h-4 mr-2" />
-                            Reschedule
-                          </Button>
-                          <Button
-                            variant="outline"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleGetDirections(inspection.address, inspection.propertyName);
-                            }}
-                          >
-                            <MapPin className="w-4 h-4 mr-2" />
-                            Get Directions
-                          </Button>
-                          <Button
-                            variant="outline"
-                            className="text-red-600 border-red-200 hover:bg-red-50"
+                            className="w-full text-red-600 border-red-200 hover:bg-red-50"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleCancel(inspection.id);
                             }}
                           >
-                            <XCircle className="w-4 h-4 mr-2" />
-                            Cancel
+                            <XCircle className="w-3 h-3 mr-1" />
+                            Cancel Inspection
                           </Button>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </Card>
-              );
-            })
+              ))}
+            </div>
           )}
         </TabsContent>
 
