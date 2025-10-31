@@ -54,7 +54,7 @@ export function PendingChatList({
             <button
               type="button"
               onClick={() => onTabChange('messages')}
-              className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 activeTab === 'messages'
                   ? 'bg-white text-[#1565C0] shadow-sm border border-[#90CAF9]/40'
                   : 'text-gray-600 hover:text-gray-900'
@@ -73,7 +73,7 @@ export function PendingChatList({
             <button
               type="button"
               onClick={() => onTabChange('pending')}
-              className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 activeTab === 'pending'
                   ? 'bg-white text-[#1565C0] shadow-sm border border-[#90CAF9]/40'
                   : 'text-gray-600 hover:text-gray-900'
@@ -113,7 +113,7 @@ export function PendingChatList({
             <button
               key={request.id}
               onClick={() => onSelect(request.id)}
-              className={`w-full flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 ${
+              className={`w-full flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 cursor-pointer ${
                 selectedId === request.id ? 'bg-[#E3F2FD]' : ''
               }`}
             >

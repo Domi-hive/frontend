@@ -20,19 +20,10 @@ export function ProgressCards() {
       description: 'Next inspection scheduled',
       action: 'See details',
     },
-    {
-      icon: Users,
-      iconBg: 'bg-white',
-      iconColor: 'text-[#1565C0]',
-      label: 'Verified Agents',
-      value: '3',
-      description: 'Agent Responses',
-      action: 'View agents',
-    },
   ];
   
   return (
-    <div className="grid grid-cols-3 gap-6 mb-8">
+    <div className="grid grid-cols-2 gap-6 mb-8">
       {cards.map((card, index) => {
         const Icon = card.icon;
         return (
@@ -64,7 +55,7 @@ export function ProgressCards() {
                   </div>
 
                   {/* Action Link */}
-                  <button className="flex items-center gap-1.5 text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors group-hover:gap-2 duration-300" style={{ fontWeight: 600 }}>
+                  <button className="flex items-center gap-1.5 text-xs text-[#1565C0] hover:text-[#0D47A1] transition-colors group-hover:gap-2 duration-300 cursor-pointer" style={{ fontWeight: 600 }}>
                     <span>{card.action}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>

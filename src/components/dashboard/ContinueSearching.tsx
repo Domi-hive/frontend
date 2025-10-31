@@ -61,10 +61,10 @@ export function ContinueSearching() {
           <p className="text-sm text-gray-600">Properties that meet your request preferences</p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="w-9 h-9 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center hover:bg-[#1565C0] hover:text-white hover:border-[#1565C0] transition-all">
+          <button className="w-9 h-9 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center hover:bg-[#1565C0] hover:text-white hover:border-[#1565C0] transition-all cursor-pointer">
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <button className="w-9 h-9 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center hover:bg-[#1565C0] hover:text-white hover:border-[#1565C0] transition-all">
+          <button className="w-9 h-9 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center hover:bg-[#1565C0] hover:text-white hover:border-[#1565C0] transition-all cursor-pointer">
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -83,7 +83,7 @@ export function ContinueSearching() {
                 alt={property.title}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
-              <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors">
+              <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors cursor-pointer">
                 <Heart className="w-4 h-4 text-gray-600" />
               </button>
             </div>

@@ -26,7 +26,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
     <div className="p-5 border-t border-gray-100 bg-white">
       <div className="flex items-end gap-3">
         {/* Attachment Button */}
-        <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors flex-shrink-0">
+        <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer">
           <Paperclip className="w-5 h-5 text-gray-600" />
         </button>
         
@@ -41,7 +41,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
             className="w-full px-4 py-3 pr-12 bg-gray-50 rounded-xl text-sm border border-gray-100 focus:outline-none focus:border-[#90CAF9] focus:ring-2 focus:ring-[#90CAF9]/20 transition-all resize-none"
             style={{ minHeight: '44px', maxHeight: '120px' }}
           />
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+          <button className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors cursor-pointer">
             <Smile className="w-5 h-5 text-gray-600" />
           </button>
         </div>
@@ -52,7 +52,7 @@ export function MessageInput({ onSend }: MessageInputProps) {
           disabled={!message.trim()}
           className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all flex-shrink-0 ${
             message.trim()
-              ? 'bg-gradient-to-r from-[#1565C0] to-[#90CAF9] text-white hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5'
+              ? 'bg-gradient-to-r from-[#1565C0] to-[#90CAF9] text-white hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 cursor-pointer'
               : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           }`}
         >

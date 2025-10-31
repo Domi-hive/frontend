@@ -37,7 +37,7 @@ export function AgentsList() {
     <div className="bg-white rounded-2xl p-6 border border-gray-100 sticky top-8">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Verified Agents</h3>
-        <button className="w-8 h-8 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors">
+        <button className="w-8 h-8 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors cursor-pointer">
           <Plus className="w-4 h-4 text-gray-600" />
         </button>
       </div>
@@ -65,7 +65,7 @@ export function AgentsList() {
                 </div>
               </div>
             </div>
-            <button className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border border-gray-200 text-[#1565C0] text-xs hover:bg-[#E3F2FD] hover:border-[#90CAF9] transition-all group-hover:gap-2" style={{ fontWeight: 600 }}>
+            <button className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border border-gray-200 text-[#1565C0] text-xs hover:bg-[#E3F2FD] hover:border-[#90CAF9] transition-all group-hover:gap-2 cursor-pointer" style={{ fontWeight: 600 }}>
               <span>View Profile</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
@@ -73,7 +73,7 @@ export function AgentsList() {
         ))}
       </div>
       
-      <button className="w-full mt-6 py-3 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors" style={{ fontWeight: 600 }}>
+      <button className="w-full mt-6 py-3 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer" style={{ fontWeight: 600 }}>
         See All Agents
       </button>
     </div>

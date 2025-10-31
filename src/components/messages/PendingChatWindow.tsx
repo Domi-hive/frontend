@@ -1,4 +1,4 @@
-import { Phone, Video, MoreVertical } from 'lucide-react';
+import { Phone, MoreVertical } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import type { PendingChatRequest } from '../../pages/MessagesPage';
 
@@ -29,7 +29,7 @@ export function PendingChatWindow({ request, onAccept, onDecline }: PendingChatW
       {/* Chat Header */}
       <div className="flex items-center justify-between p-5 border-b border-gray-100 flex-shrink-0">
         <div className="flex items-start gap-3">
-          <div className="relative">
+          <div className="relative cursor-pointer">
             <ImageWithFallback
               src={request.agent.image}
               alt={request.agent.name}
@@ -58,13 +58,10 @@ export function PendingChatWindow({ request, onAccept, onDecline }: PendingChatW
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors">
+          <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors cursor-pointer">
             <Phone className="w-5 h-5 text-gray-600" />
           </button>
-          <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors">
-            <Video className="w-5 h-5 text-gray-600" />
-          </button>
-          <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors">
+          <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors cursor-pointer">
             <MoreVertical className="w-5 h-5 text-gray-600" />
           </button>
         </div>
@@ -135,7 +132,7 @@ export function PendingChatWindow({ request, onAccept, onDecline }: PendingChatW
           <button
             type="button"
             onClick={() => onDecline?.(request.id)}
-            className="flex-1 px-4 py-3 rounded-lg text-sm text-red-600 border border-red-200 hover:bg-red-50 transition-all"
+            className="flex-1 px-4 py-3 rounded-lg text-sm text-red-600 border border-red-200 hover:bg-red-50 transition-all cursor-pointer"
             style={{ fontWeight: 600 }}
           >
             Decline
@@ -143,7 +140,7 @@ export function PendingChatWindow({ request, onAccept, onDecline }: PendingChatW
           <button
             type="button"
             onClick={() => onAccept?.(request.id)}
-            className="flex-1 px-4 py-3 rounded-lg text-sm text-white bg-gradient-to-r from-[#1565C0] to-[#90CAF9] shadow-sm hover:shadow-lg transition-all"
+            className="flex-1 px-4 py-3 rounded-lg text-sm text-white bg-gradient-to-r from-[#1565C0] to-[#90CAF9] shadow-sm hover:shadow-lg transition-all cursor-pointer"
             style={{ fontWeight: 600 }}
           >
             Accept &amp; Start Chat

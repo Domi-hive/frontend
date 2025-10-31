@@ -18,7 +18,7 @@ export function YourRequests() {
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
       <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
         <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>Your Requests</h3>
-        <button className="text-sm text-[#1565C0] hover:text-[#0D47A1] transition-colors" style={{ fontWeight: 600 }}>
+        <button className="text-sm text-[#1565C0] hover:text-[#0D47A1] transition-colors cursor-pointer" style={{ fontWeight: 600 }}>
           See all
         </button>
       </div>
@@ -60,7 +60,7 @@ export function YourRequests() {
             </div>
           </div>
           <div className="flex items-center">
-            <button className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#1565C0] hover:border-[#1565C0] hover:text-white transition-all group">
+            <button className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#1565C0] hover:border-[#1565C0] hover:text-white transition-all group cursor-pointer">
               <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-white transition-colors" />
             </button>
           </div>

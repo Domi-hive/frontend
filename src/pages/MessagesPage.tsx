@@ -339,7 +339,7 @@ export function MessagesPage() {
                       <button
                         type="button"
                         onClick={() => setActiveTab('pending')}
-                        className="mt-5 px-4 py-2 rounded-lg bg-gradient-to-r from-[#1565C0] to-[#90CAF9] text-white text-sm shadow-sm hover:shadow-lg transition-all"
+                        className="mt-5 px-4 py-2 rounded-lg bg-gradient-to-r from-[#1565C0] to-[#90CAF9] text-white text-sm shadow-sm hover:shadow-lg transition-all cursor-pointer"
                         style={{ fontWeight: 600 }}
                       >
                         Review pending requests
