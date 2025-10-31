@@ -382,7 +382,7 @@ export function MessagesPage() {
                   </div>
                 </div>
               ) : (
-                <div className="mt-6 grid grid-cols-[320px_minmax(0,1fr)] gap-6 h-[calc(100vh-200px)]">
+                <div className="mt-6 flex gap-6 h-[calc(100vh-280px)] overflow-hidden">
                   <ChatList
                     conversations={acceptedConversations}
                     selectedId={selectedConversationId ?? undefined}

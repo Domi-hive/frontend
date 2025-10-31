@@ -32,9 +32,9 @@ export function ChatList({
   const noResultsMessage = emptyStateMessage ?? 'No conversations found.';
 
   return (
-    <div className="w-80 border-r border-gray-100 flex flex-col min-h-0 bg-white">
+    <div className="w-80 flex-shrink-0 border-r border-gray-100 flex flex-col h-full bg-white rounded-l-2xl overflow-hidden">
       {/* Header */}
-      <div className="p-5 border-b border-gray-100">
+      <div className="p-5 border-b border-gray-100 flex-shrink-0">
         <h2 className="text-xl text-gray-900 mb-4" style={{ fontWeight: 600 }}>
           {titleText}
         </h2>
@@ -53,7 +53,7 @@ export function ChatList({
       </div>
 
       {/* Conversations List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto min-h-0">
         {filteredConversations.length === 0 ? (
           <div className="px-5 py-10 text-center text-sm text-gray-500">
             {noResultsMessage}

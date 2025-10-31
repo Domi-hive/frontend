@@ -52,7 +52,7 @@ export function AgentMessages() {
       <div className="flex-1 ml-64">
         <div className="p-8 max-w-[1400px]">
           <DashboardHeader />
-          <div className="grid grid-cols-[320px_1fr] gap-6 h-[calc(100vh-200px)]">
+          <div className="mt-6 flex gap-6 h-[calc(100vh-280px)] overflow-hidden">
             <ChatList
               conversations={conversations}
               selectedId={selectedConversationId}
