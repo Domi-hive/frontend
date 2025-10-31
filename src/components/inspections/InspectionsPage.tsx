@@ -137,14 +137,6 @@ export function InspectionsPage() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>My Inspections</h1>
-          <p className="text-sm text-gray-600">View and manage all your property inspection appointments.</p>
-        </div>
-      </div>
-
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div role="tablist" aria-orientation="horizontal" className="text-muted-foreground h-7 w-fit items-center justify-start rounded-xl p-[2px] flex mb-6 bg-[#F5FAFF]" tabIndex={0} data-orientation="horizontal" style={{ outline: 'currentcolor' }}>

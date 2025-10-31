@@ -46,7 +46,7 @@ export function RequestsPage() {
       <div className="flex-1 ml-64">
         <div className="p-8">
           {/* Header */}
-          <DashboardHeader />
+          <DashboardHeader title="My Property Requests" />
           
           {/* Requests Header */}
           <RequestsHeader onCreateNew={() => setShowCreateModal(true)} />

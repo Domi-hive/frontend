@@ -319,7 +319,7 @@ export function MessagesPage() {
       <DashboardSidebar />
 
       <div className="flex-1 ml-64 flex flex-col overflow-hidden">
-        <div className="flex-shrink-0 px-8 pt-8 pb-6 max-w-[1400px]">
+        <div className="flex-shrink-0 p-8 max-w-[1400px]">
           <DashboardHeader title="Messages" />
         </div>
 

@@ -6,11 +6,20 @@ interface DashboardHeaderProps {
   title?: string;
 }
 
+interface DashboardHeaderProps {
+  title?: string;
+}
+
 export function DashboardHeader({ title }: DashboardHeaderProps = {}) {
-  const { theme, toggleTheme } = useTheme();
-  
   return (
-    <div className="flex items-center justify-end mb-6">
+    <div className="flex items-center justify-between mb-6">
+      {/* Title */}
+      {title && (
+        <h1 className="text-3xl text-gray-900" style={{ fontWeight: 600 }}>
+          {title}
+        </h1>
+      )}
+      
       {/* Right Actions */}
       <div className={`flex items-center gap-4 ${!title ? 'ml-auto' : ''}`}>
         <button 

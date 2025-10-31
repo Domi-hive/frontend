@@ -12,7 +12,7 @@ export function RecommendedPropertiesPage() {
       <div className="flex-1 ml-64">
         <div className="p-8 max-w-[1400px]">
           {/* Header */}
-          <DashboardHeader />
+          <DashboardHeader title="Recommended Properties" />
 
           {/* Properties Content */}
           <PropertiesContent />

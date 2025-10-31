@@ -279,12 +279,6 @@ export function RecommendedPropertiesPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Page Title */}
-      <div className="mb-8">
-        <h1 className="text-3xl text-gray-900 mb-2" style={{ fontWeight: 600 }}>Recommended Properties</h1>
-        <p className="text-gray-600">Here are properties that match your recent request preferences.</p>
-      </div>
-
       {/* Content */}
       {totalProperties === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-gray-200">
