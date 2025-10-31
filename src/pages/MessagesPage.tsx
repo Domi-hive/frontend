@@ -3,7 +3,8 @@ import { DashboardSidebar } from '../components/dashboard/DashboardSidebar';
 import { DashboardHeader } from '../components/dashboard/DashboardHeader';
 import { ChatList } from '../components/messages/ChatList';
 import { ChatWindow } from '../components/messages/ChatWindow';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { PendingChatList } from '../components/messages/PendingChatList';
+import { PendingChatWindow } from '../components/messages/PendingChatWindow';
 
 export interface Message {
   id: string;
@@ -28,7 +29,7 @@ export interface Conversation {
   messages?: Message[];
 }
 
-interface PendingChatRequest {
+export interface PendingChatRequest {
   id: string;
   agent: {
     name: string;
@@ -223,6 +224,9 @@ export function MessagesPage() {
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(
     acceptedSeed.length ? acceptedSeed[0].id : null
   );
+  const [selectedPendingId, setSelectedPendingId] = useState<string | null>(
+    pendingSeed.length ? pendingSeed[0].id : null
+  );
   const [activeTab, setActiveTab] = useState<'messages' | 'pending'>(
     acceptedSeed.length ? 'messages' : 'pending'
   );
@@ -241,7 +245,19 @@ export function MessagesPage() {
     }
   }, [acceptedConversations, pendingRequests.length, selectedConversationId, activeTab]);
 
+  useEffect(() => {
+    if (pendingRequests.length === 0) {
+      setSelectedPendingId(null);
+      return;
+    }
+
+    if (!selectedPendingId || !pendingRequests.some((req) => req.id === selectedPendingId)) {
+      setSelectedPendingId(pendingRequests[0].id);
+    }
+  }, [pendingRequests, selectedPendingId]);
+
   const selectedConversation = acceptedConversations.find((conv) => conv.id === selectedConversationId);
+  const selectedPendingRequest = pendingRequests.find((req) => req.id === selectedPendingId);
 
   const handleAcceptRequest = (requestId: string) => {
     const request = pendingRequests.find((pending) => pending.id === requestId);
@@ -348,118 +364,36 @@ export function MessagesPage() {
                 </div>
               )
             ) : (
-              <div className="flex-1 overflow-y-auto">
-                {pendingCount === 0 ? (
-                  <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
-                    <div className="max-w-sm">
-                      <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>
-                        No pending requests
-                      </h3>
-                      <p className="text-sm text-gray-500 mt-3">
-                        When an agent responds to your property request, their message will appear here for approval.
-                      </p>
-                    </div>
+              pendingCount === 0 ? (
+                <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
+                  <div className="max-w-sm">
+                    <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>
+                      No pending requests
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-3">
+                      When an agent responds to your property request, their message will appear here for approval.
+                    </p>
                   </div>
-                ) : (
-                  <div className="space-y-4 pb-4">
-                    {pendingRequests.map((request) => (
-                      <div
-                        key={request.id}
-                        className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className="relative">
-                            <ImageWithFallback
-                              src={request.agent.image}
-                              alt={request.agent.name}
-                              className="w-14 h-14 rounded-full object-cover"
-                            />
-                            {request.agent.isOnline && (
-                              <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full" />
-                            )}
-                          </div>
+                </div>
+              ) : (
+                <div className="flex gap-6 flex-1 overflow-hidden">
+                  <PendingChatList
+                    requests={pendingRequests}
+                    selectedId={selectedPendingId ?? undefined}
+                    onSelect={setSelectedPendingId}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                    messagesCount={acceptedCount}
+                    pendingCount={pendingCount}
+                  />
 
-                          <div className="flex-1 min-w-0">
-                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <h4 className="text-base text-gray-900" style={{ fontWeight: 600 }}>
-                                    {request.agent.name}
-                                  </h4>
-                                  <span className="text-xs text-gray-500">Responded · {request.responseTime}</span>
-                                </div>
-                                <p className="text-sm text-gray-500">Request: {request.requestTitle}</p>
-                              </div>
-                              <span className="px-3 py-1 rounded-full text-xs bg-[#E3F2FD] text-[#1565C0]" style={{ fontWeight: 600 }}>
-                                Awaiting approval
-                              </span>
-                            </div>
-
-                            <div className="mt-4 p-4 rounded-xl bg-[#F5FAFF]">
-                              <p className="text-sm text-gray-900" style={{ fontWeight: 500 }}>
-                                {request.requestSummary}
-                              </p>
-                              <p className="text-sm text-gray-600 mt-2">{request.introMessage}</p>
-
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 text-xs text-gray-500">
-                                <div>
-                                  <span className="text-gray-500">Property Type:</span>
-                                  <span className="ml-2 text-gray-900" style={{ fontWeight: 600 }}>
-                                    {request.details.propertyType}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span className="text-gray-500">Location:</span>
-                                  <span className="ml-2 text-gray-900" style={{ fontWeight: 600 }}>
-                                    {request.details.location}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span className="text-gray-500">Budget:</span>
-                                  <span className="ml-2 text-gray-900" style={{ fontWeight: 600 }}>
-                                    {request.details.budget}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span className="text-gray-500">Inspection Window:</span>
-                                  <span className="ml-2 text-gray-900" style={{ fontWeight: 600 }}>
-                                    {request.details.inspectionWindow}
-                                  </span>
-                                </div>
-                                <div className="md:col-span-2">
-                                  <span className="text-gray-500">Match Summary:</span>
-                                  <span className="ml-2 text-gray-900" style={{ fontWeight: 600 }}>
-                                    {request.details.matchesFound}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="mt-5 flex flex-col sm:flex-row gap-3">
-                              <button
-                                type="button"
-                                onClick={() => handleDeclineRequest(request.id)}
-                                className="px-4 py-2 rounded-lg text-sm text-red-600 border border-red-200 hover:bg-red-50 transition-all"
-                                style={{ fontWeight: 600 }}
-                              >
-                                Decline
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleAcceptRequest(request.id)}
-                                className="px-4 py-2 rounded-lg text-sm text-white bg-gradient-to-r from-[#1565C0] to-[#90CAF9] shadow-sm hover:shadow-lg transition-all"
-                                style={{ fontWeight: 600 }}
-                              >
-                                Accept &amp; Start Chat
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                  <PendingChatWindow
+                    request={selectedPendingRequest}
+                    onAccept={handleAcceptRequest}
+                    onDecline={handleDeclineRequest}
+                  />
+                </div>
+              )
             )}
           </div>
         </div>
