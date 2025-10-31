@@ -92,7 +92,7 @@ export function ChatWindow({ conversation, onMessageSent }: ChatWindowProps) {
 
   if (!conversation) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-center px-12 bg-white">
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-12 bg-white min-h-0">
         <div className="max-w-sm">
           <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>
             Select a chat to get started
@@ -106,7 +106,7 @@ export function ChatWindow({ conversation, onMessageSent }: ChatWindowProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col min-h-0 bg-white">
       {/* Chat Header */}
       <div className="flex items-center justify-between p-5 border-b border-gray-100">
         <div className="flex items-start gap-3">

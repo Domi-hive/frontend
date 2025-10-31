@@ -32,7 +32,7 @@ export function ChatList({
   const noResultsMessage = emptyStateMessage ?? 'No conversations found.';
 
   return (
-    <div className="w-80 border-r border-gray-100 flex flex-col">
+    <div className="w-80 border-r border-gray-100 flex flex-col min-h-0 bg-white">
       {/* Header */}
       <div className="p-5 border-b border-gray-100">
         <h2 className="text-xl text-gray-900 mb-4" style={{ fontWeight: 600 }}>
