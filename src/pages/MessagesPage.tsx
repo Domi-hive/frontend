@@ -299,17 +299,19 @@ export function MessagesPage() {
   const acceptedCount = acceptedConversations.length;
 
   return (
-    <div className="flex min-h-screen bg-[#F5FAFF]">
+    <div className="flex h-screen bg-[#F5FAFF] overflow-hidden">
       <DashboardSidebar />
 
-      <div className="flex-1 ml-64">
-        <div className="p-8 max-w-[1400px]">
+      <div className="flex-1 ml-64 flex flex-col overflow-hidden">
+        <div className="flex-shrink-0 p-8 max-w-[1400px]">
           <DashboardHeader />
+        </div>
 
-          <div className="mt-8">
+        <div className="flex-1 px-8 pb-8 overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-hidden flex flex-col">
             {activeTab === 'messages' ? (
               acceptedCount === 0 ? (
-                <div className="mt-10 flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
+                <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
                   <div className="max-w-sm">
                     <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>
                       No accepted chats yet
@@ -330,7 +332,7 @@ export function MessagesPage() {
                   </div>
                 </div>
               ) : (
-                <div className="mt-6 flex gap-6 h-[calc(100vh-280px)] overflow-hidden">
+                <div className="flex gap-6 flex-1 overflow-hidden">
                   <ChatList
                     conversations={acceptedConversations}
                     selectedId={selectedConversationId ?? undefined}
@@ -346,7 +348,7 @@ export function MessagesPage() {
                 </div>
               )
             ) : (
-              <div className="mt-6">
+              <div className="flex-1 overflow-y-auto">
                 {pendingCount === 0 ? (
                   <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
                     <div className="max-w-sm">
@@ -359,7 +361,7 @@ export function MessagesPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-4 pb-4">
                     {pendingRequests.map((request) => (
                       <div
                         key={request.id}

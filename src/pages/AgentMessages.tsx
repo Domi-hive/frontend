@@ -47,12 +47,14 @@ export function AgentMessages() {
   const selectedConversation = conversations.find(conv => conv.id === selectedConversationId) || conversations[0];
 
   return (
-    <div className="flex min-h-screen bg-[#F5FAFF]">
+    <div className="flex h-screen bg-[#F5FAFF] overflow-hidden">
       <AgentSidebar activeItem="messages" />
-      <div className="flex-1 ml-64">
-        <div className="p-8 max-w-[1400px]">
+      <div className="flex-1 ml-64 flex flex-col overflow-hidden">
+        <div className="flex-shrink-0 p-8 max-w-[1400px]">
           <DashboardHeader />
-          <div className="mt-6 flex gap-6 h-[calc(100vh-280px)] overflow-hidden">
+        </div>
+        <div className="flex-1 px-8 pb-8 overflow-hidden">
+          <div className="flex gap-6 h-full overflow-hidden">
             <ChatList
               conversations={conversations}
               selectedId={selectedConversationId}
