@@ -2,24 +2,27 @@ import { Phone, Video, MoreVertical } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { MessageInput } from './MessageInput';
 import type { Conversation, Message } from '../../pages/MessagesPage';
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface ChatWindowProps {
-  conversation: Conversation;
+  conversation?: Conversation;
+  onMessageSent?: (conversationId: string, message: Message) => void;
 }
 
-export function ChatWindow({ conversation }: ChatWindowProps) {
-  const [messages, setMessages] = useState<Message[]>([
+const createFallbackMessages = (conversation: Conversation): Message[] => {
+  const agentName = conversation.agent.name;
+
+  return [
     {
-      id: '1',
-      senderId: conversation.agent.name,
-      senderName: conversation.agent.name,
-      text: 'Hi Muhammad! Thanks for your interest in the 2-bedroom apartment in Wuse II.',
+      id: `${conversation.id}-fallback-1`,
+      senderId: agentName,
+      senderName: agentName,
+      text: `Hi Muhammad! Thanks for your interest in ${conversation.requestTitle ?? 'this property.'}`,
       timestamp: new Date(Date.now() - 3600000),
       isOwn: false,
     },
     {
-      id: '2',
+      id: `${conversation.id}-fallback-2`,
       senderId: 'me',
       senderName: 'Muhammad',
       text: 'Hi! I would love to schedule an inspection. What times are available?',
@@ -27,70 +30,86 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
       isOwn: true,
     },
     {
-      id: '3',
-      senderId: conversation.agent.name,
-      senderName: conversation.agent.name,
-      text: 'Great! I have availability on Thursday at 2:00 PM or 4:00 PM. Would either of those work for you?',
-      timestamp: new Date(Date.now() - 3400000),
-      isOwn: false,
-    },
-    {
-      id: '4',
-      senderId: 'me',
-      senderName: 'Muhammad',
-      text: 'Thursday at 2:00 PM would be perfect!',
+      id: `${conversation.id}-fallback-3`,
+      senderId: agentName,
+      senderName: agentName,
+      text: 'Great! I have availability later this week. Would that work for you?',
       timestamp: new Date(Date.now() - 3300000),
-      isOwn: true,
-    },
-    {
-      id: '5',
-      senderId: conversation.agent.name,
-      senderName: conversation.agent.name,
-      text: "Perfect! I've updated the inspection time to 3:00 PM tomorrow. I'll send you the exact location details shortly.",
-      timestamp: new Date(Date.now() - 120000),
       isOwn: false,
     },
-    {
-      id: '6',
-      senderId: 'me',
-      senderName: 'Muhammad',
-      text: 'Thanks, that works perfectly.',
-      timestamp: new Date(Date.now() - 60000),
-      isOwn: true,
-    },
-  ]);
-  
+  ];
+};
+
+const getInitialMessages = (conversation?: Conversation): Message[] => {
+  if (!conversation) {
+    return [];
+  }
+
+  if (conversation.messages && conversation.messages.length > 0) {
+    return conversation.messages.map((message) => ({ ...message }));
+  }
+
+  return createFallbackMessages(conversation);
+};
+
+export function ChatWindow({ conversation, onMessageSent }: ChatWindowProps) {
+  const [messages, setMessages] = useState<Message[]>(() => getInitialMessages(conversation));
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
+  useEffect(() => {
+    setMessages(getInitialMessages(conversation));
+  }, [conversation]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-  
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-  
+
   const handleSendMessage = (text: string) => {
+    if (!conversation) {
+      return;
+    }
+
     const newMessage: Message = {
-      id: Date.now().toString(),
+      id: `${conversation.id}-${Date.now()}`,
       senderId: 'me',
       senderName: 'Muhammad',
       text,
       timestamp: new Date(),
       isOwn: true,
     };
-    setMessages([...messages, newMessage]);
+
+    setMessages((prev) => [...prev, newMessage]);
+    onMessageSent?.(conversation.id, newMessage);
   };
-  
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   };
-  
+
+  if (!conversation) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-12 bg-white">
+        <div className="max-w-sm">
+          <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>
+            Select a chat to get started
+          </h3>
+          <p className="text-sm text-gray-500 mt-3">
+            Accepted agent conversations will appear here. Head to the Pending tab to approve a new chat request.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 flex flex-col">
       {/* Chat Header */}
       <div className="flex items-center justify-between p-5 border-b border-gray-100">
-        <div className="flex items-center gap-3">
+        <div className="flex items-start gap-3">
           <div className="relative">
             <ImageWithFallback
               src={conversation.agent.image}
@@ -102,13 +121,23 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
             )}
           </div>
           <div>
-            <h3 className="text-base text-gray-900" style={{ fontWeight: 600 }}>{conversation.agent.name}</h3>
+            <h3 className="text-base text-gray-900" style={{ fontWeight: 600 }}>
+              {conversation.agent.name}
+            </h3>
             <p className="text-xs text-gray-500">
               {conversation.agent.isOnline ? 'Active now' : 'Offline'}
             </p>
+            {conversation.requestTitle && (
+              <span
+                className="inline-flex mt-3 px-3 py-1 rounded-full bg-[#E3F2FD] text-[#1565C0] text-[11px] uppercase tracking-wide"
+                style={{ fontWeight: 700 }}
+              >
+                {conversation.requestTitle}
+              </span>
+            )}
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <button className="w-10 h-10 rounded-lg hover:bg-gray-50 flex items-center justify-center transition-colors">
             <Phone className="w-5 h-5 text-gray-600" />
@@ -121,7 +150,7 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
           </button>
         </div>
       </div>
-      
+
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.map((message) => (
@@ -147,7 +176,7 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      
+
       {/* Message Input */}
       <MessageInput onSend={handleSendMessage} />
     </div>
