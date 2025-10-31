@@ -307,58 +307,6 @@ export function MessagesPage() {
           <DashboardHeader />
 
           <div className="mt-8">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 className="text-xl text-gray-900" style={{ fontWeight: 600 }}>
-                  Direct Messages
-                </h2>
-                <p className="text-sm text-gray-500 mt-1">
-                  Accepted chats appear under Messages. New agent responses wait in the Pending tab until you accept.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-xl self-start">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('messages')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all flex items-center gap-2 ${
-                    activeTab === 'messages'
-                      ? 'bg-white text-[#1565C0] shadow-sm border border-[#90CAF9]/40'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  Messages
-                  <span
-                    className={`px-2 py-0.5 text-xs rounded-full ${
-                      activeTab === 'messages' ? 'bg-[#E3F2FD] text-[#1565C0]' : 'bg-gray-100 text-gray-600'
-                    }`}
-                    style={{ fontWeight: 600 }}
-                  >
-                    {acceptedCount}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('pending')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all flex items-center gap-2 ${
-                    activeTab === 'pending'
-                      ? 'bg-white text-[#1565C0] shadow-sm border border-[#90CAF9]/40'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  Pending
-                  <span
-                    className={`px-2 py-0.5 text-xs rounded-full ${
-                      activeTab === 'pending' ? 'bg-[#E3F2FD] text-[#1565C0]' : 'bg-gray-100 text-gray-600'
-                    }`}
-                    style={{ fontWeight: 600 }}
-                  >
-                    {pendingCount}
-                  </span>
-                </button>
-              </div>
-            </div>
-
             {activeTab === 'messages' ? (
               acceptedCount === 0 ? (
                 <div className="mt-10 flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
@@ -388,6 +336,10 @@ export function MessagesPage() {
                     selectedId={selectedConversationId ?? undefined}
                     onSelect={setSelectedConversationId}
                     emptyStateMessage="No conversations match your search."
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                    messagesCount={acceptedCount}
+                    pendingCount={pendingCount}
                   />
 
                   <ChatWindow conversation={selectedConversation} onMessageSent={handleMessageSent} />

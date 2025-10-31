@@ -9,6 +9,10 @@ interface ChatListProps {
   onSelect: (id: string) => void;
   title?: string;
   emptyStateMessage?: string;
+  activeTab?: 'messages' | 'pending';
+  onTabChange?: (tab: 'messages' | 'pending') => void;
+  messagesCount?: number;
+  pendingCount?: number;
 }
 
 export function ChatList({
@@ -17,6 +21,10 @@ export function ChatList({
   onSelect,
   title,
   emptyStateMessage,
+  activeTab,
+  onTabChange,
+  messagesCount = 0,
+  pendingCount = 0,
 }: ChatListProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -35,10 +43,6 @@ export function ChatList({
     <div className="w-80 flex-shrink-0 border-r border-gray-100 flex flex-col h-full bg-white rounded-l-2xl overflow-hidden">
       {/* Header */}
       <div className="p-5 border-b border-gray-100 flex-shrink-0">
-        <h2 className="text-xl text-gray-900 mb-4" style={{ fontWeight: 600 }}>
-          {titleText}
-        </h2>
-
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -50,6 +54,50 @@ export function ChatList({
             className="w-full pl-10 pr-3 py-2 bg-gray-50 rounded-lg text-sm border border-gray-100 focus:outline-none focus:border-[#90CAF9] focus:ring-2 focus:ring-[#90CAF9]/20 transition-all"
           />
         </div>
+
+        {/* Tab Switcher - only show if activeTab and onTabChange are provided */}
+        {activeTab && onTabChange && (
+          <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-xl mt-4">
+            <button
+              type="button"
+              onClick={() => onTabChange('messages')}
+              className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 ${
+                activeTab === 'messages'
+                  ? 'bg-white text-[#1565C0] shadow-sm border border-[#90CAF9]/40'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Messages
+              <span
+                className={`px-2 py-0.5 text-xs rounded-full ${
+                  activeTab === 'messages' ? 'bg-[#E3F2FD] text-[#1565C0]' : 'bg-gray-100 text-gray-600'
+                }`}
+                style={{ fontWeight: 600 }}
+              >
+                {messagesCount}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onTabChange('pending')}
+              className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 ${
+                activeTab === 'pending'
+                  ? 'bg-white text-[#1565C0] shadow-sm border border-[#90CAF9]/40'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Pending
+              <span
+                className={`px-2 py-0.5 text-xs rounded-full ${
+                  activeTab === 'pending' ? 'bg-[#E3F2FD] text-[#1565C0]' : 'bg-gray-100 text-gray-600'
+                }`}
+                style={{ fontWeight: 600 }}
+              >
+                {pendingCount}
+              </span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Conversations List */}

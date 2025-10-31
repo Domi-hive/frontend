@@ -55,9 +55,11 @@ const getInitialMessages = (conversation?: Conversation): Message[] => {
 export function ChatWindow({ conversation, onMessageSent }: ChatWindowProps) {
   const [messages, setMessages] = useState<Message[]>(() => getInitialMessages(conversation));
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevMessagesLengthRef = useRef(0);
 
   useEffect(() => {
     setMessages(getInitialMessages(conversation));
+    prevMessagesLengthRef.current = 0;
   }, [conversation]);
 
   const scrollToBottom = () => {
@@ -65,7 +67,10 @@ export function ChatWindow({ conversation, onMessageSent }: ChatWindowProps) {
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > prevMessagesLengthRef.current) {
+      scrollToBottom();
+    }
+    prevMessagesLengthRef.current = messages.length;
   }, [messages]);
 
   const handleSendMessage = (text: string) => {
