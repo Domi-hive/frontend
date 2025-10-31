@@ -1,12 +1,14 @@
 import { RequestsList } from './RequestsList';
 import type { PropertyRequest } from '../../pages/RequestsPage';
+import { Plus } from 'lucide-react';
 
 interface RequestsTabsProps {
   activeTab: 'active' | 'pending' | 'history';
   onTabChange: (tab: 'active' | 'pending' | 'history') => void;
+  onCreateNew: () => void;
 }
 
-export function RequestsTabs({ activeTab, onTabChange }: RequestsTabsProps) {
+export function RequestsTabs({ activeTab, onTabChange, onCreateNew }: RequestsTabsProps) {
   const tabs = [
     { id: 'active' as const, label: 'Active Requests', count: 2 },
     { id: 'pending' as const, label: 'Pending Requests', count: 1 },
@@ -157,9 +159,10 @@ export function RequestsTabs({ activeTab, onTabChange }: RequestsTabsProps) {
   
   return (
     <div>
-      {/* Tabs Navigation */}
-      <div role="tablist" aria-orientation="horizontal" className="text-muted-foreground h-7 w-fit items-center justify-start rounded-xl p-[2px] flex mb-6 bg-[#F5FAFF]" tabIndex={0} data-orientation="horizontal" style={{ outline: 'currentcolor' }}>
-        {tabs.map((tab) => (
+      {/* Tabs Navigation and Create Button Row */}
+      <div className="flex items-center justify-between mb-8">
+        <div role="tablist" aria-orientation="horizontal" className="text-muted-foreground h-7 w-fit items-center justify-start rounded-xl p-[2px] flex bg-[#F5FAFF]" tabIndex={0} data-orientation="horizontal" style={{ outline: 'currentcolor' }}>
+          {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -185,6 +188,16 @@ export function RequestsTabs({ activeTab, onTabChange }: RequestsTabsProps) {
             )}
           </button>
         ))}
+        </div>
+        
+        <button
+          onClick={onCreateNew}
+          className="flex items-center gap-2 px-6 py-3 bg-[#90CAF9] text-white rounded-xl hover:bg-gradient-to-r hover:from-[#1565C0] hover:to-[#90CAF9] transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
+          style={{ fontWeight: 600 }}
+        >
+          <Plus className="w-5 h-5" />
+          <span>Create New Request</span>
+        </button>
       </div>
       
       {/* Tab Content */}

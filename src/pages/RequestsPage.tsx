@@ -1,6 +1,5 @@
 import { DashboardSidebar } from '../components/dashboard/DashboardSidebar';
 import { DashboardHeader } from '../components/dashboard/DashboardHeader';
-import { RequestsHeader } from '../components/requests/RequestsHeader';
 import { RequestsTabs } from '../components/requests/RequestsTabs';
 import { CreateRequestModal } from '../components/requests/CreateRequestModal';
 import { useState } from 'react';
@@ -48,11 +47,8 @@ export function RequestsPage() {
           {/* Header */}
           <DashboardHeader title="My Property Requests" />
           
-          {/* Requests Header */}
-          <RequestsHeader onCreateNew={() => setShowCreateModal(true)} />
-          
           {/* Tabs & Content */}
-          <RequestsTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          <RequestsTabs activeTab={activeTab} onTabChange={setActiveTab} onCreateNew={() => setShowCreateModal(true)} />
         </div>
       </div>
       

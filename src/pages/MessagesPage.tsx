@@ -319,12 +319,12 @@ export function MessagesPage() {
       <DashboardSidebar />
 
       <div className="flex-1 ml-64 flex flex-col overflow-hidden">
-        <div className="flex-shrink-0 p-8 max-w-[1400px]">
+        <div className="flex-shrink-0 px-8 pt-6 pb-4 max-w-[1400px]">
           <DashboardHeader title="Messages" />
         </div>
 
-        <div className="flex-1 px-8 pb-6 overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-hidden flex flex-col mt-4 mb-6">
+        <div className="flex-1 px-8 pb-12 overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-hidden flex flex-col">
             {activeTab === 'messages' ? (
               acceptedCount === 0 ? (
                 <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
