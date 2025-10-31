@@ -122,19 +122,19 @@ export function LeadDetailsPanel({
           <h4 className="mb-4" style={{ color: '#1565C0' }}>Requested Property</h4>
           <div className="space-y-3">
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Property Type</div>
+              <div className="text-xs text-black mb-1">Property Type</div>
               <div className="text-sm">{lead.propertyType}</div>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Location</div>
+              <div className="text-xs text-black mb-1">Location</div>
               <div className="text-sm">{lead.location}</div>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Budget Range</div>
+              <div className="text-xs text-black mb-1">Budget Range</div>
               <div className="text-sm">{lead.budgetRange}</div>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Last Contacted</div>
+              <div className="text-xs text-black mb-1">Last Contacted</div>
               <div className="text-sm">{lead.lastContacted}</div>
             </div>
           </div>

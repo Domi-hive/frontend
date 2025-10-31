@@ -25,10 +25,10 @@ export function YourRequests() {
       
       {/* Table Header */}
       <div className="grid grid-cols-[200px_120px_1fr_100px] gap-4 px-6 py-4 bg-gray-50 border-b border-gray-100">
-        <div className="text-xs text-gray-500" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>AGENT</div>
-        <div className="text-xs text-gray-500" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>DATE</div>
-        <div className="text-xs text-gray-500" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>REQUEST</div>
-        <div className="text-xs text-gray-500" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>ACTION</div>
+        <div className="text-xs text-black" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>AGENT</div>
+        <div className="text-xs text-black" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>DATE</div>
+        <div className="text-xs text-black" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>REQUEST</div>
+        <div className="text-xs text-black" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>ACTION</div>
       </div>
       
       {/* Table Rows */}

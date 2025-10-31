@@ -52,7 +52,7 @@ export function AgentSidebar({ onLogout }: AgentSidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 px-4">
-        <div className="text-xs text-gray-400 mb-3 px-3" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
+        <div className="text-xs text-black mb-3 px-3" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
           OVERVIEW
         </div>
         <div className="space-y-1 mb-8">
@@ -81,7 +81,7 @@ export function AgentSidebar({ onLogout }: AgentSidebarProps) {
 
         {/* Connections */}
         <div>
-          <div className="text-xs text-gray-400 mb-3 px-3" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
+          <div className="text-xs text-black mb-3 px-3" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
             RECENT CLIENTS
           </div>
           <div className="space-y-2">
@@ -107,7 +107,7 @@ export function AgentSidebar({ onLogout }: AgentSidebarProps) {
 
       {/* Settings */}
       <div className="px-4 pb-6 space-y-1 border-t border-gray-100 pt-4">
-        <div className="text-xs text-gray-400 mb-3 px-3" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
+        <div className="text-xs text-black mb-3 px-3" style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
           SETTINGS
         </div>
         <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 transition-colors">

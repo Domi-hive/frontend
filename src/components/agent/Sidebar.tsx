@@ -48,7 +48,7 @@ export function Sidebar({ activeItem = 'inspections' }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 px-3">
         <div className="space-y-1">
-          <div className="text-xs text-gray-500 px-3 mb-2">OVERVIEW</div>
+          <div className="text-xs text-black px-3 mb-2">OVERVIEW</div>
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.id === activeItem;
@@ -71,7 +71,7 @@ export function Sidebar({ activeItem = 'inspections' }: SidebarProps) {
 
         {/* Connections */}
         <div className="mt-8">
-          <div className="text-xs text-gray-500 px-3 mb-3">CONNECTIONS</div>
+          <div className="text-xs text-black px-3 mb-3">CONNECTIONS</div>
           <div className="space-y-1">
             {connections.map((connection) => (
               <button
@@ -94,7 +94,7 @@ export function Sidebar({ activeItem = 'inspections' }: SidebarProps) {
 
       {/* Settings */}
       <div className="p-3 border-t border-gray-200 space-y-1">
-        <div className="text-xs text-gray-500 px-3 mb-2">SETTINGS</div>
+        <div className="text-xs text-black px-3 mb-2">SETTINGS</div>
         <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
           <Settings className="w-5 h-5" />
           <span>Setting</span>

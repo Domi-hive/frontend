@@ -129,29 +129,29 @@ export function RequestDetailsPanel({
           <h4 className="mb-4" style={{ color: '#1565C0' }}>Property Request Details</h4>
           <div className="space-y-3">
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Property Type</div>
+              <div className="text-xs text-black mb-1">Property Type</div>
               <div className="text-sm">{request.propertyType}</div>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Location</div>
+              <div className="text-xs text-black mb-1">Location</div>
               <div className="text-sm">{request.location}</div>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Budget Range</div>
+              <div className="text-xs text-black mb-1">Budget Range</div>
               <div className="text-sm">{request.budgetRange}</div>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Preferred Inspection Dates</div>
+              <div className="text-xs text-black mb-1">Preferred Inspection Dates</div>
               <div className="text-sm">{request.preferredDates.join(', ')}</div>
             </div>
             {request.additionalNotes && (
               <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-                <div className="text-xs text-gray-500 mb-1">Additional Notes</div>
+                <div className="text-xs text-black mb-1">Additional Notes</div>
                 <div className="text-sm">{request.additionalNotes}</div>
               </div>
             )}
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-              <div className="text-xs text-gray-500 mb-1">Request Date</div>
+              <div className="text-xs text-black mb-1">Request Date</div>
               <div className="text-sm">{request.dateCreated}</div>
             </div>
           </div>

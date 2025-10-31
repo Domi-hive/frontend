@@ -89,20 +89,20 @@ export function PropertyDetailsModal({
           {/* Property Details */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <div className="text-sm text-gray-500 mb-1">Price</div>
+              <div className="text-sm text-black mb-1">Price</div>
               <div className="text-xl" style={{ color: '#1565C0' }}>
                 {property.price}
               </div>
             </div>
             <div>
-              <div className="text-sm text-gray-500 mb-1">Location</div>
+              <div className="text-sm text-black mb-1">Location</div>
               <div className="flex items-center gap-1">
                 <MapPin className="w-4 h-4 text-gray-500" />
                 <span className="text-sm">{property.location}</span>
               </div>
             </div>
             <div>
-              <div className="text-sm text-gray-500 mb-1">Status</div>
+              <div className="text-sm text-black mb-1">Status</div>
               <Badge className={`${badge.color} text-xs px-3 py-1`}>
                 {badge.label}
               </Badge>

@@ -112,19 +112,19 @@ export function InspectionCard({
         <div className="px-5 pb-5 border-t border-gray-100 pt-4 animate-in slide-in-from-top-2 duration-200">
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <div className="text-xs text-gray-500 mb-1">Property</div>
+              <div className="text-xs text-black mb-1">Property</div>
               <div className="text-sm">{inspection.propertyType}</div>
             </div>
             <div>
-              <div className="text-xs text-gray-500 mb-1">Date</div>
+              <div className="text-xs text-black mb-1">Date</div>
               <div className="text-sm">{inspection.date}</div>
             </div>
             <div>
-              <div className="text-xs text-gray-500 mb-1">Time</div>
+              <div className="text-xs text-black mb-1">Time</div>
               <div className="text-sm">{inspection.time}</div>
             </div>
             <div>
-              <div className="text-xs text-gray-500 mb-1">Agent</div>
+              <div className="text-xs text-black mb-1">Agent</div>
               <div className="text-sm flex items-center gap-1">
                 {inspection.agent.name}
                 {inspection.agent.verified && <CheckCircle className="w-3 h-3" style={{ color: '#90CAF9' }} />}
@@ -133,12 +133,12 @@ export function InspectionCard({
           </div>
 
           <div className="mb-4">
-            <div className="text-xs text-gray-500 mb-1">Location</div>
+            <div className="text-xs text-black mb-1">Location</div>
             <div className="text-sm">{inspection.location}</div>
           </div>
 
           <div className="mb-4">
-            <div className="text-xs text-gray-500 mb-1">Agent Phone</div>
+            <div className="text-xs text-black mb-1">Agent Phone</div>
             <div className="text-sm">{inspection.agent.phone}</div>
           </div>
 

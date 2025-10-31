@@ -80,30 +80,30 @@ export function RequestCard({ request, isHistory }: RequestCardProps) {
             <h4 className="text-sm text-gray-900 mb-4" style={{ fontWeight: 600 }}>Request Details</h4>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-gray-500">Property Type:</span>
+                <span className="text-black">Property Type:</span>
                 <span className="ml-2 text-gray-900" style={{ fontWeight: 500 }}>{request.details.propertyType}</span>
               </div>
               <div>
-                <span className="text-gray-500">Location:</span>
+                <span className="text-black">Location:</span>
                 <span className="ml-2 text-gray-900" style={{ fontWeight: 500 }}>{request.details.location}</span>
               </div>
               <div>
-                <span className="text-gray-500">Budget Range:</span>
+                <span className="text-black">Budget Range:</span>
                 <span className="ml-2 text-gray-900" style={{ fontWeight: 500 }}>{request.details.budgetRange}</span>
               </div>
               <div>
-                <span className="text-gray-500">Preferred Inspection:</span>
+                <span className="text-black">Preferred Inspection:</span>
                 <span className="ml-2 text-gray-900" style={{ fontWeight: 500 }}>{request.details.preferredInspectionDate}</span>
               </div>
               {request.details.bedrooms && (
                 <div>
-                  <span className="text-gray-500">Bedrooms:</span>
+                  <span className="text-black">Bedrooms:</span>
                   <span className="ml-2 text-gray-900" style={{ fontWeight: 500 }}>{request.details.bedrooms}</span>
                 </div>
               )}
               {request.details.bathrooms && (
                 <div>
-                  <span className="text-gray-500">Bathrooms:</span>
+                  <span className="text-black">Bathrooms:</span>
                   <span className="ml-2 text-gray-900" style={{ fontWeight: 500 }}>{request.details.bathrooms}</span>
                 </div>
               )}

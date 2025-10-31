@@ -98,7 +98,7 @@ export function AgentDashboardPage() {
             </span>
           </div>
           <div className="text-4xl font-bold text-gray-800 mb-1">8</div>
-          <div className="text-sm text-gray-500 mb-3">New Leads</div>
+          <div className="text-sm text-black mb-3">New Leads</div>
           <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
             <div className="h-full w-3/4 bg-blue-600 rounded-full"></div>
           </div>
@@ -116,7 +116,7 @@ export function AgentDashboardPage() {
             </span>
           </div>
           <div className="text-4xl font-bold text-gray-800 mb-1">5</div>
-          <div className="text-sm text-gray-500 mb-3">Active Requests</div>
+          <div className="text-sm text-black mb-3">Active Requests</div>
           <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
             <div className="h-full w-1/2 bg-purple-600 rounded-full"></div>
           </div>
@@ -134,7 +134,7 @@ export function AgentDashboardPage() {
             </span>
           </div>
           <div className="text-4xl font-bold text-gray-800 mb-1">3</div>
-          <div className="text-sm text-gray-500 mb-3">Scheduled Inspections</div>
+          <div className="text-sm text-black mb-3">Scheduled Inspections</div>
           <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
             <div className="h-full w-1/4 bg-orange-600 rounded-full"></div>
           </div>
@@ -152,7 +152,7 @@ export function AgentDashboardPage() {
             </span>
           </div>
           <div className="text-4xl font-bold text-gray-800 mb-1">₦124k</div>
-          <div className="text-sm text-gray-500 mb-3">Monthly Revenue</div>
+          <div className="text-sm text-black mb-3">Monthly Revenue</div>
           <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
             <div className="h-full w-4/5 bg-green-600 rounded-full"></div>
           </div>
