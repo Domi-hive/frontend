@@ -4,7 +4,6 @@ import { DashboardHero } from '../components/dashboard/DashboardHero';
 import { ProgressCards } from '../components/dashboard/ProgressCards';
 import { ContinueSearching } from '../components/dashboard/ContinueSearching';
 import { YourRequests } from '../components/dashboard/YourRequests';
-import { AgentsList } from '../components/dashboard/AgentsList';
 import { CreateRequestModal } from '../components/requests/CreateRequestModal';
 import { useState } from 'react';
 
@@ -31,22 +30,13 @@ export function DashboardPage({ onLogout }: DashboardPageProps) {
           {/* Progress Cards */}
           <ProgressCards />
           
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-[1fr_340px] gap-6">
-            {/* Left Column */}
-            <div>
-              {/* Matched Properties */}
-              <ContinueSearching />
-              
-              {/* Your Requests Table */}
-              <YourRequests />
-            </div>
+          {/* Main Content */}
+          <div>
+            {/* Matched Properties */}
+            <ContinueSearching />
             
-            {/* Right Column */}
-            <div>
-              {/* Agents List */}
-              <AgentsList />
-            </div>
+            {/* Your Requests Table */}
+            <YourRequests />
           </div>
         </div>
       </div>
