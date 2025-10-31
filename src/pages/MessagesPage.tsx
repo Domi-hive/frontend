@@ -364,28 +364,16 @@ export function MessagesPage() {
                 </div>
               )
             ) : (
-              pendingCount === 0 ? (
-                <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-100 rounded-2xl py-16 px-10">
-                  <div className="max-w-sm">
-                    <h3 className="text-lg text-gray-900" style={{ fontWeight: 600 }}>
-                      No pending requests
-                    </h3>
-                    <p className="text-sm text-gray-500 mt-3">
-                      When an agent responds to your property request, their message will appear here for approval.
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex gap-6 flex-1 overflow-hidden">
-                  <PendingChatList
-                    requests={pendingRequests}
-                    selectedId={selectedPendingId ?? undefined}
-                    onSelect={setSelectedPendingId}
-                    activeTab={activeTab}
-                    onTabChange={setActiveTab}
-                    messagesCount={acceptedCount}
-                    pendingCount={pendingCount}
-                  />
+              <div className="flex gap-6 flex-1 overflow-hidden max-h-full">
+                <PendingChatList
+                  requests={pendingRequests}
+                  selectedId={selectedPendingId ?? undefined}
+                  onSelect={setSelectedPendingId}
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                  messagesCount={acceptedCount}
+                  pendingCount={pendingCount}
+                />
 
                 <PendingChatWindow
                   request={selectedPendingRequest}
