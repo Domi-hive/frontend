@@ -95,7 +95,16 @@ export function PendingChatList({
 
       {/* Requests List */}
       <div className="flex-1 overflow-y-auto min-h-0">
-        {filteredRequests.length === 0 ? (
+        {requests.length === 0 ? (
+          <div className="px-5 py-10 text-center">
+            <h3 className="text-sm text-gray-900 mb-2" style={{ fontWeight: 600 }}>
+              No pending requests
+            </h3>
+            <p className="text-xs text-gray-500">
+              When an agent responds to your property request, their message will appear here for approval.
+            </p>
+          </div>
+        ) : filteredRequests.length === 0 ? (
           <div className="px-5 py-10 text-center text-sm text-gray-500">
             No pending requests match your search.
           </div>

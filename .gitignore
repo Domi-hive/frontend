@@ -6,6 +6,11 @@ pnpm-debug.log*
 .next/
 out/
 
+# Vite
+dist/
+dist-ssr/
+*.local
+
 Dashboard B
 
 # Environment variables
