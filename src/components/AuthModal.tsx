@@ -206,7 +206,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                     <FormField
                       control={forgotPasswordForm.control}
                       name="email"
-                      rules={{ required: 'Email is required' }}
+                      rules={{
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: 'Invalid email format'
+                        }
+                      }}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Email</FormLabel>
@@ -235,7 +241,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                     <FormField
                       control={loginForm.control}
                       name="email"
-                      rules={{ required: 'Email is required' }}
+                      rules={{
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: 'Invalid email format'
+                        }
+                      }}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Email</FormLabel>
@@ -279,7 +291,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, navigate }) => {
                 <FormField
                   control={signupForm.control}
                   name="email"
-                  rules={{ required: 'Email is required' }}
+                  rules={{
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: 'Invalid email format'
+                    }
+                  }}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>
